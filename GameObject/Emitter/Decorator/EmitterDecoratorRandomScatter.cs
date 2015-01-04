@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TestSimpleRNG;
 
 [RequireComponent(typeof(Emitter))]
 public class EmitterDecoratorRandomScatter : MonoBehaviour
@@ -24,7 +25,7 @@ public class EmitterDecoratorRandomScatter : MonoBehaviour
         var _deltaPos = Vector2.zero;
 
         if (! Mathf.Approximately(positionDeviation.x, 0))
-            _deltaPos.x = (float)SimpleRNG.GetNormal(0, positionDeviation.x);
+			_deltaPos.x = (float)SimpleRNG.GetNormal(0, positionDeviation.x);
 
         if (!Mathf.Approximately(positionDeviation.y, 0))
             _deltaPos.y = (float)SimpleRNG.GetNormal(0, positionDeviation.y);
