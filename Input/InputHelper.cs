@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-namespace In
+namespace Gem.In
 {
-	public static class Helper
+	public static class InputHelper
 	{
 		public static Vector2 GetAxis()
 		{

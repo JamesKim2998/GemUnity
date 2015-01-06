@@ -1,9 +1,8 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace In
+namespace Gem.In
 {
-	public struct State
+	public struct InputState
 	{
 		public bool isDown { get; private set; }
 		public bool isUp { get; private set; }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace In
+namespace Gem.In
 {
-	public abstract class IHandler
+	public abstract class IInputHandler
 	{
 		public virtual bool active { get { return false; } }
 

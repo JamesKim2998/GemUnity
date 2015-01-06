@@ -3,11 +3,28 @@ using UnityEngine;
 
 public static class D
 {
+	public static string CAST_FAIL
+	{
+		get
+		{
+			return Debug.isDebugBuild
+				? "cast fail." : null;
+		}
+	}
+
 	public static string INVALID_CALL()
 	{
-		if (!Debug.isDebugBuild)
-			return null;
-		return "invalid function call.";
+		return Debug.isDebugBuild ? "invalid function call." : null;
+	}
+
+	public static string INVALID_STATE()
+	{
+		return Debug.isDebugBuild ? "invalid state." : null;
+	}
+
+	public static string SHOULD_NOT_NULL()
+	{
+		return Debug.isDebugBuild ? "value is null." : null;
 	}
 
 	public static string SHOULD_NOT_NULL<T>(T _val) where T : class
@@ -42,6 +59,22 @@ public static class D
 		return "key " + _key +" not exists.";
 	}
 
+	public static string INVALID_STREAM
+	{
+		get
+		{
+			return Debug.isDebugBuild
+				? "invalid stream." : null;	
+		}
+	}
+
+	public static string RSC_NOT_EXISTS(string _file)
+	{
+		return Debug.isDebugBuild
+			? "resource " + _file + " not exists."
+			: null;
+	}
+
 	public static string DO_NOTHING()
 	{
 		if (!Debug.isDebugBuild)
@@ -49,12 +82,41 @@ public static class D
 		return "continue.";
 	}
 
+	public static string DO_CONTINUE
+	{
+		get
+		{
+			return Debug.isDebugBuild
+				? "continue." : null;
+		}
+	}
+
+	public static string DO_RETURN_
+	{
+		get
+		{
+			return Debug.isDebugBuild
+				? "return." : null;	
+		}
+	}
+
+	public static string DO_RETURN_NULL
+	{
+		get
+		{
+			return Debug.isDebugBuild
+				? "return null." : null;
+		}
+	}
+
+	[Obsolete]
 	public static string DO_RETURN()
 	{
 		if (!Debug.isDebugBuild)
 			return null;
 		return "return.";
 	}
+
 	public static string DO_RETURN<T>(T _val)
 	{
 		if (!Debug.isDebugBuild)
@@ -85,7 +147,7 @@ public static class D
 
 	public static void Log(int _l, string _do, string _msg)
 	{
-		Log(_l, _do + _msg);
+		Log(_l, _do + " " + _msg);
 	}
 }
 

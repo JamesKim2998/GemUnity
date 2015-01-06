@@ -1,6 +1,6 @@
-﻿namespace In
+﻿namespace Gem.In
 {
-	public enum Code
+	public enum InputCode
 	{
 		U, D, L, R,
 
