@@ -1,33 +1,34 @@
-﻿using System.IO;
-using Newtonsoft.Json;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using LitJson;
 using UnityEngine;
 
 namespace Gem
 {
 	public static class JsonHelper
 	{
-		public static JsonReader Resource(string _file)
+		public static IEnumerable<KeyValuePair<string, JsonData>> Dictionary(this JsonData _data)
 		{
-			var _text = RscHelper.Text(_file);
-			if (_text == null) return null;
-			return new JsonTextReader(new StringReader(_text.text));
+			return _data.Cast<KeyValuePair<string, JsonData>>();
 		}
 
-		public static string Key(JsonReader _reader)
+		public static string Key(this JsonReader _reader)
 		{
-			if (_reader.TokenType != JsonToken.PropertyName)
+			if (_reader.Token != JsonToken.PropertyName)
 			{
-				D.Log(2, D.DO_RETURN_NULL, D.INVALID_STREAM);
+				L.Log(2, L.DO_RETURN_NULL, L.INVALID_STREAM);
 				return null;
 			}
 
-			return (string) _reader.Value;
+			return (string)_reader.Value;
 		}
 
 		/// <summary>
 		/// compare only process when debug
 		/// </summary>
-		public static bool AssertKey(JsonReader _reader, string _cmp)
+		public static bool AssertKey(this JsonReader _reader, string _cmp)
 		{
 			var _key = Key(_reader);
 			if (_key == null) return false;
@@ -35,45 +36,57 @@ namespace Gem
 			if (Debug.isDebugBuild)
 			{
 				if (_key == _cmp)
-				{
 					return true;
-				}
-				else
-				{
-					D.Log(2, D.DO_RETURN(false), D.KEY_NOT_EXISTS(_cmp));
-					return false;
-				}
-			}
-			else
-			{
+				L.Log(2, L.DO_RETURN(false), L.KEY_NOT_EXISTS(_cmp));
 				return false;
 			}
+
+			return false;
 		}
 
-		public static void StepOut(JsonReader _reader)
+		public static bool TryParse<T>(this JsonReader _reader, out T _ret)
 		{
-			var _depth = _reader.Depth;
+			_ret = default(T);
 
-			while (_reader.Read())
+			if (_reader.Token != JsonToken.String)
 			{
-				if (_depth > _reader.Depth)
-					return;
+				L.Log(2, L.DO_RETURN(false), L.TYPE_WRONG(_reader.Token, JsonToken.String));
+				return false;
 			}
-		}
 
-		public static bool TryParse<T>(JsonReader _reader, out T _ret)
-		{
 			return EnumHelper.TryParse((string) _reader.Value, out _ret);
 		}
 
-		public static T Convert<T>(JsonReader _reader) where T : struct
+		public static JsonData DataWithFile(string _file)
 		{
-			return (T) new JsonSerializer().Deserialize(_reader, typeof(T));
+			var _text = RscHelper.Text(_file);
+			if (_text == null) return null;
+			return JsonMapper.ToObject(_text.text);
 		}
 
-		public static string Convert<T>(T _data) where T : struct
+		public static JsonReader ToReader(this JsonData _data)
 		{
-			return JsonConvert.SerializeObject(_data);
+			// todo: optimize
+			return new JsonReader(JsonMapper.ToJson(_data));
 		}
+
+		public static void StepOut(this JsonReader _reader)
+		{
+			var _depth = 0;
+
+			while (_reader.Read())
+			{
+				switch (_reader.Token)
+				{
+					case JsonToken.ObjectStart:
+						++_depth;
+						break;
+					case JsonToken.ObjectEnd:
+						if (--_depth == -1) return;
+						break;
+				}
+			}
+		}
+
 	}
 }

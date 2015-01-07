@@ -2,6 +2,6 @@
 {
 	public interface IInputFetcher
 	{
-		InputState Fetch(InputState _old);
+		void Fetch(ref InputState _state);
 	}
 }

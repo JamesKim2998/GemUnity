@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using LitJson;
+using Debug = UnityEngine.Debug;
 
 namespace Gem.In
 {
@@ -11,62 +14,43 @@ namespace Gem.In
 
 	public static class InputFetcherFactory
 	{
-		public static IInputFetcher Make(JsonReader _reader)
+		public static IInputFetcher Make(JsonData _data)
 		{
-			do
+			InputFetcherType _type;
+			if (! EnumHelper.TryParse((string) _data["type"], out _type))
+				return null;
+
+			var _reader = JsonHelper.ToReader(_data);
+
+			switch (_type)
 			{
-				_reader.Read();
-
-				if (!JsonHelper.AssertKey(_reader, "type"))
-					break;
-
-				InputFetcherType _type;
-
-				_reader.Read();
-				if (!JsonHelper.TryParse(_reader, out _type))
-					break;
-
-				switch (_type)
-				{
-					case InputFetcherType.KEY: return new InputFetcherKey(_reader);
-					case InputFetcherType.BTN: return new InputFetcherButton(_reader);
-				}
-			} while (false);
-
-			_reader.Skip();
-			return null;
+				case InputFetcherType.KEY:
+					return new InputFetcherKey(_reader);
+				case InputFetcherType.BTN:
+					return new InputFetcherButton(_reader);
+				default:
+					L.Log(2, L.DO_RETURN_NULL, L.ENUM_UNDEFINED(_type));
+					return null;
+			}
 		}
 
-		public struct InputCodeAndFetcher
+		public static IEnumerable<KeyValuePair<InputCode, IInputFetcher>> Read(JsonData _data)
 		{
-			public InputCode code;
-			public IInputFetcher fetcher;
-		}
-
-		public static IEnumerable<InputCodeAndFetcher> Read(JsonReader _reader)
-		{
-			while (_reader.Read())
+			foreach (var _kv in JsonHelper.Dictionary(_data))
 			{
-				var _codeStr = JsonHelper.Key(_reader);
-				if (_codeStr == null)
-				{
-					D.Log(2, D.DO_CONTINUE, D.INVALID_STREAM);
-					_reader.Skip();
-					continue;
-				}
+				var _codeStr = _kv.Key;
 
 				InputCode _code;
 				if (! EnumHelper.TryParse(_codeStr, out _code))
 				{
-					D.Log(2, D.DO_CONTINUE, D.INVALID_STREAM);
-					_reader.Skip();
-					continue;
+					L.Log(2, L.DO_RETURN_, L.INVALID_STREAM);
+					yield break;
 				}
 
-				var _fetcher = Make(_reader);
+				var _fetcher = Make(_kv.Value);
 				if (_fetcher == null) continue;
-				
-				yield return new InputCodeAndFetcher{ code = _code, fetcher = _fetcher };
+
+				yield return new KeyValuePair<InputCode, IInputFetcher>(_code, _fetcher);
 			}
 		}
 	}

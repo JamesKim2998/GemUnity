@@ -1,15 +1,17 @@
-﻿namespace Gem.In
+﻿using System.Collections.Generic;
+
+namespace Gem.In
 {
-	class InputMap
+	public class InputMap
 	{
 		private const int SIZE = (int) InputCode.END;
 
-		private struct FetcherAndState
+		private class FetcherAndState
 		{
 			public IInputFetcher fetcher { private get; set; }
-			public InputState state { get; private set; }
+			public InputState state;
 
-			public FetcherAndState(InputState _state) : this()
+			public FetcherAndState(InputState _state) 
 			{
 				state = _state;
 			}
@@ -17,7 +19,7 @@
 			public void TryFetch()
 			{
 				if (fetcher != null)
-					state = fetcher.Fetch(state);
+					fetcher.Fetch(ref state);
 			}
 		}
 
@@ -26,7 +28,7 @@
 		public InputMap()
 		{
 			for (var i = 0; i != SIZE; ++i)
-				mMap[i] = new FetcherAndState(new InputState());
+				mMap[i] = new FetcherAndState(InputState.DEFAULT);
 		}
 
 		public InputState this[InputCode _code]
@@ -34,7 +36,7 @@
 			get { return mMap[(int) _code].state; }
 		}
 
-		public void SetFetcher(InputCode _code, IInputFetcher _fetcher) 
+		public void Add(InputCode _code, IInputFetcher _fetcher) 
 		{
 			mMap[(int) _code].fetcher = _fetcher;
 		}

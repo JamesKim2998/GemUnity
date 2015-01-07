@@ -1,17 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Gem.In
 {
+	[Serializable]
 	public partial class InputFetcherKey : IInputFetcher
 	{
 		public KeyCode code;
 
-		public InputState Fetch(InputState _org)
+		public void Fetch(ref InputState _org)
 		{
 			if (code == 0)
 			{
-				D.Log(2, D.DO_RETURN_, D.SHOULD_NOT_NULL());
-				return _org;
+				L.Log(2, L.DO_RETURN_, L.SHOULD_NOT_NULL());
+				return;
 			}
 
 			if (Input.GetKeyDown(code))
@@ -21,10 +23,8 @@ namespace Gem.In
 			else if (Debug.isDebugBuild)
 			{
 				if (Input.GetKey(code) != _org.isOn)
-					D.Log(1, D.DO_NOTHING(), D.INVALID_STATE());
+					L.Log(1, L.DO_NOTHING(), L.INVALID_STATE());
 			}
-
-			return _org;
 		}
 	}
 }

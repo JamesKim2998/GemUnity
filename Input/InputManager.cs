@@ -5,8 +5,9 @@ namespace Gem.In
 {
 	public class InputManager
 	{
-		private readonly InputMap mMap = new InputMap();
+		public readonly InputMap map = new InputMap();
 		private readonly Binder[] mBinders = new Binder[(int) InputCode.END];
+		private static readonly LevelLogger sLL = new LevelLogger(1);
 
 		private Binder Binder_(InputCode _code)
 		{
@@ -15,15 +16,15 @@ namespace Gem.In
 
 		public InputState State_(InputCode _code)
 		{
-			return mMap[_code];
+			return map[_code];
 		}
 
-		public void Reg(InputCode _code, IInputHandler _handler, PositionType _position = PositionType.BACK)
+		public void Reg(InputCode _code, InputHandler _handler, PositionType _position = PositionType.BACK)
 		{
-			ContainerHelper.Add(Binder_(_code).chain, new HandlerState(_handler), _position);
+			Binder_(_code).chain.Add(new HandlerState(_handler), _position);
 		}
 
-		public void Unreg(InputCode _code, IInputHandler _handler)
+		public void Unreg(InputCode _code, InputHandler _handler)
 		{
 			var _isListening = false;
 			var _binder = Binder_(_code);
@@ -40,18 +41,17 @@ namespace Gem.In
 				}
 			});
 
-			if (! ContainerHelper.Remove(_binder.chain, _doCompare))
+			if (! _binder.chain.Remove(_doCompare))
 			{
-				D.Log(1, D.DO_RETURN_, D.KEY_NOT_EXISTS(_code));
+				L.Log(1, L.DO_RETURN_, L.KEY_NOT_EXISTS(_code));
 				return;
 			}
 
 			if (_isListening)
 			{
-				if (!ContainerHelper.Remove(_binder.listeners,
-					_data => (_data.handler == _handler)))
+				if (!_binder.listeners.Remove(_data => (_data.handler == _handler)))
 				{
-					D.Log(2, D.DO_NOTHING(), D.KEY_NOT_EXISTS(_code));
+					L.Log(2, L.DO_NOTHING(), L.KEY_NOT_EXISTS(_code));
 				}
 			}
 		}
@@ -64,8 +64,8 @@ namespace Gem.In
 
 		private void TickAndFetch()
 		{
-			mMap.Tick();
-			mMap.Fetch();
+			map.Tick();
+			map.Fetch();
 		}
 
 		private static void PropagateDown(
@@ -78,38 +78,21 @@ namespace Gem.In
 				if (!_handler.active) continue;
 				if (_handler.block) break;
 
-				if (_handler.Down())
+				if (_handler.down())
 				{
-					_data.isOn = true;
-					if (_handler.shouldListen)
+					if (! _handler.forget)
 					{
-						_data.isListening = true;
-						_listeners.Add(_data);
+						_data.isOn = true;
+						if (_handler.listen)
+						{
+							_data.isListening = true;
+							_listeners.Add(_data);
+						}
 					}
+
 					if (_handler.swallow)
 						break;
 				}
-			}
-		}
-
-		private struct UnregData
-		{
-			public InputCode code;
-			public IInputHandler handler;
-		}
-
-		private static void PropagateOn(
-			InputCode _code,
-			IEnumerable<HandlerState> _listeners,
-			ICollection<UnregData> _unregs)
-		{
-			foreach (var _listener in _listeners)
-			{
-				var _handler = _listener.handler;
-				if (_handler.shouldUnreg)
-					_unregs.Add(new UnregData() { code = _code, handler = _handler });
-				else
-					_handler.Update();
 			}
 		}
 
@@ -128,7 +111,7 @@ namespace Gem.In
 
 				_data.isOn = false;
 				_data.isListening = false;
-				_data.handler.Up();
+				_data.handler.up();
 			}
 
 			_listeners.Clear();
@@ -136,7 +119,6 @@ namespace Gem.In
 
 		private void Propagate() 
 		{
-			var _unregs = new List<UnregData>();
 			var _codeRaw = 0;
 
 			foreach (var _binder in mBinders)
@@ -146,37 +128,39 @@ namespace Gem.In
 				if (_binder == null)
 					continue;
 
-				var _state = mMap[_code];
+				var _state = map[_code];
 				var _chain = _binder.chain;
 				var _listeners = _binder.listeners;
 
 				if (_state.isDown)
 				{
-					PropagateDown(_chain, _listeners);
+					sLL.Log(0, "propagate " + _code);
+					if (_chain.Count == 0)
+						sLL.Log(1, L.HANDLE_NOT_EXIST(_code));
+					else
+						PropagateDown(_chain, _listeners);
 				}
 				else if (_state.isOn)
 				{
-					PropagateOn(_code, _listeners, _unregs);
+					foreach (var _listener in _listeners)
+						_listener.handler.update();
 				}
 				else if (_state.isUp)
 				{
 					PropagateUp(_chain, _listeners);
 				}
 			}
-
-			foreach (var _unreg in _unregs)
-				Unreg(_unreg.code, _unreg.handler);
 		}
 
 		private class HandlerState
 		{
-			public HandlerState(IInputHandler _handler)
+			public HandlerState(InputHandler _handler)
 			{
 				handler = _handler;
 				isListening = false;
 			}
 
-			public readonly IInputHandler handler;
+			public readonly InputHandler handler;
 			public bool isOn;
 			public bool isListening;
 		}

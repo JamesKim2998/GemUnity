@@ -9,7 +9,7 @@ namespace Gem
 			var _rsc = Resources.Load(_file);
 			if (_rsc == null)
 			{
-				D.Log(2, D.DO_RETURN_NULL, D.RSC_NOT_EXISTS(_file));
+				L.Log(2, L.DO_RETURN_NULL, L.RSC_NOT_EXISTS(_file));
 				return null;
 			}
 
@@ -24,7 +24,7 @@ namespace Gem
 			var _text = Resources.Load(_file) as TextAsset;
 			if (_text == null)
 			{
-				D.Log(2, D.DO_RETURN_NULL, D.CAST_FAIL);
+				L.Log(2, L.DO_RETURN_NULL, L.CAST_FAIL);
 				return null;
 			}
 

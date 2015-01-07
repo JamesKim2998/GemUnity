@@ -1,53 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
-[Flags]
-public enum Direction
+namespace Gem
 {
-	LEFT = 1 << 0,
-	RIGHT = 1 << 1,
-	UP = 1 << 2,
-	DOWN = 1 << 3,
-}
-
-public static class DirectionHelper
-{
-	public const float DEADZONE_DEFAULT = 0.001f;
-
-	public static Direction ToDirection(Vector2 _vec, float _deadzone = DEADZONE_DEFAULT)
+	[Flags]
+	public enum Direction
 	{
-		var _ret = new Direction();
-
-		if (_vec.x > _deadzone)
-			_ret |= Direction.RIGHT;
-		else if (_vec.x < -_deadzone)
-			_ret |= Direction.LEFT;
-
-		if (_vec.y > _deadzone)
-			_ret |= Direction.UP;
-		else if (_vec.y < -_deadzone)
-			_ret |= Direction.DOWN;
-
-		return _ret;
+		L = 1 << 0,
+		R = 1 << 1,
+		U = 1 << 2,
+		D = 1 << 3,
 	}
 
-	public static Vector2 ToVector2(Direction _dir)
+	public static class DirectionHelper
 	{
-		var _ret = Vector2.zero;
+		public const float DEADZONE_DEFAULT = 0.001f;
 
-		if (EnumHelper.Has(_dir, Direction.RIGHT))
-			_ret.x = 1;
-		else if (EnumHelper.Has(_dir, Direction.LEFT))
-			_ret.x = -1;
+		public static Direction ToDirection(Vector2 _vec, float _deadzone = DEADZONE_DEFAULT)
+		{
+			var _ret = new Direction();
 
-		if (EnumHelper.Has(_dir, Direction.UP))
-			_ret.y = 1;
-		else if (EnumHelper.Has(_dir, Direction.DOWN))
-			_ret.y = -1;
+			if (_vec.x > _deadzone)
+				_ret |= Direction.R;
+			else if (_vec.x < -_deadzone)
+				_ret |= Direction.L;
 
-		return _ret;
+			if (_vec.y > _deadzone)
+				_ret |= Direction.U;
+			else if (_vec.y < -_deadzone)
+				_ret |= Direction.D;
+
+			return _ret;
+		}
+
+		public static Vector2 ToVector2(Direction _dir)
+		{
+			var _ret = Vector2.zero;
+
+			if (_dir.Has(Direction.R))
+				_ret.x = 1;
+			else if (_dir.Has(Direction.L))
+				_ret.x = -1;
+
+			if (_dir.Has(Direction.U))
+				_ret.y = 1;
+			else if (_dir.Has(Direction.D))
+				_ret.y = -1;
+
+			return _ret;
+		}
 	}
 }

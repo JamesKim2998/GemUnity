@@ -1,7 +1,6 @@
-﻿using System.IO;
-using Gem;
+﻿using Gem;
 using Gem.In;
-using Newtonsoft.Json;
+using LitJson;
 using UnityEngine;
 
 public class InputTest : MonoBehaviour
@@ -11,11 +10,11 @@ public class InputTest : MonoBehaviour
 
 	void Start ()
 	{
-		var _reader = JsonHelper.Resource("input.json");
-		foreach (var _fetcher in InputFetcherFactory.Read(_reader))
-		{
-			D.Log(0, _fetcher.ToString());
-		}
+		var _data = JsonHelper.DataWithFile("input.json");
+		var _map = gem.input.map;
+
+		foreach (var _kv in InputFetcherFactory.Read(_data))
+			_map.Add(_kv.Key, _kv.Value);
 	}
 	
 	void Update () {

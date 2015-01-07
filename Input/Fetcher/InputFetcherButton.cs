@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using UnityEngine;
 
 namespace Gem.In
 {
-
+	[Serializable]
 	public partial class InputFetcherButton : IInputFetcher
 	{
 		public string name;
 
-		public InputState Fetch(InputState _org)
+		public void Fetch(ref InputState _org)
 		{
 			if (string.IsNullOrEmpty(name))
 			{
-				D.Log(2, D.DO_RETURN_, D.SHOULD_NOT_NULL(name));
-				return _org;
+				L.Log(2, L.DO_RETURN_, L.SHOULD_NOT_NULL(name));
+				return;
 			}
 
 			if (Input.GetButtonDown(name))
@@ -23,10 +23,8 @@ namespace Gem.In
 			else if (Debug.isDebugBuild)
 			{
 				if (Input.GetButton(name) != _org.isOn)
-					D.Log(1, D.DO_NOTHING(), D.INVALID_STATE());
+					L.Log(1, L.DO_NOTHING(), L.INVALID_STATE());
 			}
-
-			return _org;
 		}
 	}
 }

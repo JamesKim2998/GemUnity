@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using LitJson;
 using UnityEngine;
 
 namespace Gem.In
@@ -12,13 +12,13 @@ namespace Gem.In
 
 		public InputFetcherButton(JsonReader _reader)
 		{
-			var _form = JsonHelper.Convert<Form>(_reader);
+			var _form = JsonMapper.ToObject<Form>(_reader);
 			name = _form.name;
 		}
 		
 		public override string ToString()
 		{
-			return JsonHelper.Convert(new Form{ name = name });
+			return JsonMapper.ToJson(new Form{ name = name });
 		}
 	}
 
@@ -26,18 +26,18 @@ namespace Gem.In
 	{
 		struct Form
 		{
-			public KeyCode code;
+			public string code;
 		}
 
 		public InputFetcherKey(JsonReader _reader)
 		{
-			var _form = JsonHelper.Convert<Form>(_reader);
-			code = _form.code;
+			var _form = JsonMapper.ToObject<Form>(_reader);
+			EnumHelper.TryParse(_form.code, out code);
 		}
 		
 		public override string ToString()
 		{
-			return JsonHelper.Convert(new Form{ code = code });
+			return JsonMapper.ToJson(new Form{ code = code.ToString() });
 		}
 	}
 
