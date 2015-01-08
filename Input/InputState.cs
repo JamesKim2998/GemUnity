@@ -14,7 +14,7 @@ namespace Gem.In
 
 		public void Down()
 		{
-			if (Debug.isDebugBuild)
+			if (App.d)
 			{
 				sLL.Log(0, "down.");
 				if (isDown || !isUp || isOn)
@@ -28,7 +28,7 @@ namespace Gem.In
 
 		public void Up()
 		{
-			if (Debug.isDebugBuild)
+			if (App.d)
 			{
 				sLL.Log(0, "up.");
 				if (isDown || isUp || isOff)
@@ -42,7 +42,7 @@ namespace Gem.In
 
 		public void Tick()
 		{
-			if (Debug.isDebugBuild)
+			if (App.d)
 			{
 				if (isOff)
 					sLL.Log(1, L.DO_NOTHING(), L.INVALID_CALL());

@@ -13,7 +13,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	
 	private static object _lock = new object();
 	
-	public static T Instance
+	public static T g
 	{
 		get
 		{
@@ -58,6 +58,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 		}
 	}
 	
+	public static T Instance { get { return g; }}
+
 	private static bool applicationIsQuitting = false;
 
 	/// <summary>

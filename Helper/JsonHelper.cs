@@ -33,7 +33,7 @@ namespace Gem
 			var _key = Key(_reader);
 			if (_key == null) return false;
 
-			if (Debug.isDebugBuild)
+			if (App.d)
 			{
 				if (_key == _cmp)
 					return true;

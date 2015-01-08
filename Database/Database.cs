@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Gem;
 using UnityEngine;
 using System.Collections;
 
@@ -53,7 +54,7 @@ public class Database<Type, Data> : MonoBehaviour, IDatabase, IEnumerable<Data>
 		m_DataDict.Clear();
 		m_DataList.Clear();
 
-		if (Debug.isDebugBuild)
+		if (App.d)
 		{
 			dataPrfs.RemoveAll(_dataPrf => _dataPrf == null);
 			dataPrfs = dataPrfs.Distinct().ToList();

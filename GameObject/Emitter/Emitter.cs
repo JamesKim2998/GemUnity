@@ -1,4 +1,5 @@
 using System;
+using Gem;
 using UnityEngine;
 
 public class Emitter : MonoBehaviour 
@@ -208,7 +209,7 @@ public class Emitter : MonoBehaviour
 	}
 
 	public void Shoot() {
-		if (Debug.isDebugBuild)
+		if (App.d)
 		{
 			if (! IsShootable()) 
 				Debug.LogError("Trying to shoot but is not shootable. Continue anyway.");

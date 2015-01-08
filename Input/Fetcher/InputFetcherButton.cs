@@ -20,7 +20,7 @@ namespace Gem.In
 				_org.Down();
 			else if (Input.GetButtonUp(name))
 				_org.Up();
-			else if (Debug.isDebugBuild)
+			else if (App.d)
 			{
 				if (Input.GetButton(name) != _org.isOn)
 					L.Log(1, L.DO_NOTHING(), L.INVALID_STATE());

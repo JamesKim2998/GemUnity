@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gem.In
 {
@@ -12,7 +13,8 @@ namespace Gem.In
 
 		~InputGroup()
 		{
-			Unreg();
+			if (App.playing)
+				Unreg();
 		}
 
 		public void Reg()

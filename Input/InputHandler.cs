@@ -17,14 +17,16 @@ namespace Gem.In
 		public bool swallow = true;
 
 		/// <summary>
-		/// if true, up and update will not be called, even down is true.
-		/// </summary>
-		public bool forget = true;
-
-		/// <summary>
 		/// if true, update will be called.
 		/// </summary>
 		public bool listen = false;
+
+		/// <summary>
+		/// if true, up will be called.
+		/// </summary>
+		public bool closed = false;
+
+		public bool forget { get { return listen && closed; } }
 
 		/// <summary>
 		/// only input with return value true will be processed.

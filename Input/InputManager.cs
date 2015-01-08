@@ -80,14 +80,13 @@ namespace Gem.In
 
 				if (_handler.down())
 				{
-					if (! _handler.forget)
-					{
+					if (_handler.closed)
 						_data.isOn = true;
-						if (_handler.listen)
-						{
-							_data.isListening = true;
-							_listeners.Add(_data);
-						}
+
+					if (_handler.listen)
+					{
+						_data.isListening = true;
+						_listeners.Add(_data);
 					}
 
 					if (_handler.swallow)
