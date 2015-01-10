@@ -18,7 +18,7 @@ namespace Gem
 		{
 			if (_reader.Token != JsonToken.PropertyName)
 			{
-				L.Log(2, L.DO_RETURN_NULL, L.INVALID_STREAM);
+				L.E(L.DO.RETURN_NULL, L.M.INVALID_STREAM);
 				return null;
 			}
 
@@ -33,13 +33,11 @@ namespace Gem
 			var _key = Key(_reader);
 			if (_key == null) return false;
 
-			if (App.d)
-			{
-				if (_key == _cmp)
-					return true;
-				L.Log(2, L.DO_RETURN(false), L.KEY_NOT_EXISTS(_cmp));
-				return false;
-			}
+#if UNITY_EDITOR
+			if (_key == _cmp)
+				return true;
+			L.E(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_cmp));
+#endif
 
 			return false;
 		}
@@ -50,7 +48,7 @@ namespace Gem
 
 			if (_reader.Token != JsonToken.String)
 			{
-				L.Log(2, L.DO_RETURN(false), L.TYPE_WRONG(_reader.Token, JsonToken.String));
+				L.E(L.DO.RETURN(false), L.M.TYPE_WRONG(_reader.Token, JsonToken.String));
 				return false;
 			}
 

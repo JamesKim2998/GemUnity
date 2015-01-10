@@ -22,7 +22,7 @@ namespace Gem
 		{
 			if (isConn)
 			{
-				L.W(L.DO_RETURN(false), L.CALL_RETRY("connect"));
+				L.W(L.DO.RETURN(false), L.M.CALL_RETRY("connect"));
 				return false;
 			}
 
@@ -37,7 +37,7 @@ namespace Gem
 		{
 			if (!isConn)
 			{
-				L.W(L.DO_RETURN(false), L.CALL_RETRY("disconnect"));
+				L.W(L.DO.RETURN(false), L.M.CALL_RETRY("disconnect"));
 				return false;
 			}
 

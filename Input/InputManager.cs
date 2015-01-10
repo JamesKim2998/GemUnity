@@ -7,7 +7,6 @@ namespace Gem.In
 	{
 		public readonly InputMap map = new InputMap();
 		private readonly Binder[] mBinders = new Binder[(int) InputCode.END];
-		private static readonly LevelLogger sLL = new LevelLogger(1);
 
 		private Binder Binder_(InputCode _code)
 		{
@@ -43,7 +42,7 @@ namespace Gem.In
 
 			if (! _binder.chain.Remove(_doCompare))
 			{
-				L.Log(1, L.DO_RETURN_, L.KEY_NOT_EXISTS(_code));
+				L.W(L.DO.RETURN_, L.M.KEY_NOT_EXISTS(_code));
 				return;
 			}
 
@@ -51,7 +50,7 @@ namespace Gem.In
 			{
 				if (!_binder.listeners.Remove(_data => (_data.handler == _handler)))
 				{
-					L.Log(2, L.DO_NOTHING(), L.KEY_NOT_EXISTS(_code));
+					L.E(L.DO.NOTHING, L.M.KEY_NOT_EXISTS(_code));
 				}
 			}
 		}
@@ -133,9 +132,9 @@ namespace Gem.In
 
 				if (_state.isDown)
 				{
-					sLL.Log(0, "propagate " + _code);
+					L.D("propagate " + _code);
 					if (_chain.Count == 0)
-						sLL.Log(1, L.HANDLE_NOT_EXIST(_code));
+						L.W(L.M.HANDLE_NOT_EXIST(_code));
 					else
 						PropagateDown(_chain, _listeners);
 				}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Gem
 {
@@ -62,7 +61,7 @@ namespace Gem
 			}
 			catch (Exception)
 			{
-				L.Log(0, L.DO_RETURN(false), L.KEY_EXISTS(_key));
+				L.D(L.DO.RETURN(false), L.M.KEY_EXISTS(_key));
 				return false;
 			}
 		}
@@ -76,9 +75,20 @@ namespace Gem
 			}
 			else
 			{
-				L.Log(2, L.DO_RETURN(false), L.KEY_NOT_EXISTS(_key));
+				L.E(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_key));
 				return false;
 			}
+		}
+
+		public static bool TryAdd<T>(this HashSet<T> _c, T _val)
+		{
+			if (! _c.Add(_val))
+			{
+				L.E(L.DO.RETURN(false), L.M.KEY_EXISTS(_val));
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

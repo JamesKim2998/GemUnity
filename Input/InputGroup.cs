@@ -21,7 +21,7 @@ namespace Gem.In
 		{
 			if (isConn)
 			{
-				L.Log(2, L.DO_RETURN_, L.INVALID_CALL());
+				L.E(L.DO.RETURN_, L.M.CALL_INVALID);
 				return;
 			}
 
@@ -35,7 +35,7 @@ namespace Gem.In
 		{
 			if (!isConn)
 			{
-				L.Log(2, L.DO_RETURN_, L.INVALID_CALL());
+				L.E(L.DO.RETURN_, L.M.CALL_INVALID);
 				return;
 			}
 
@@ -62,7 +62,7 @@ namespace Gem.In
 
 
 		public bool isConn { get; private set; }
-		private InputManager mInput;
+		private readonly InputManager mInput;
 		private readonly Dictionary<InputCode, InputHandler> mDict = new Dictionary<InputCode, InputHandler>();
 	}
 }

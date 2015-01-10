@@ -12,7 +12,7 @@ namespace Gem.In
 		{
 			if (string.IsNullOrEmpty(name))
 			{
-				L.Log(2, L.DO_RETURN_, L.SHOULD_NOT_NULL(name));
+				L.E(L.DO.RETURN_, L.M.SHOULD_NOT_NULL(name));
 				return;
 			}
 
@@ -20,10 +20,12 @@ namespace Gem.In
 				_org.Down();
 			else if (Input.GetButtonUp(name))
 				_org.Up();
-			else if (App.d)
+			else 
 			{
+#if UNITY_EDITOR
 				if (Input.GetButton(name) != _org.isOn)
-					L.Log(1, L.DO_NOTHING(), L.INVALID_STATE());
+					L.W(L.DO.NOTHING, L.M.STATE_INVALID);
+#endif
 			}
 		}
 	}

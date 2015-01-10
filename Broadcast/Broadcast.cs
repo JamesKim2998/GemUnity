@@ -3,14 +3,9 @@
 namespace Gem
 {
 
-	public class Broadcast : Singleton<Broadcast>
+	public static class Broadcast
 	{
-		public ActionWrap onQuit = new ActionWrap();
-
-		void OnApplicationQuit()
-		{
-			onQuit.val.CheckAndCall();
-		}
+		public static ActionWrap onQuit = new ActionWrap();
 	}
 
 

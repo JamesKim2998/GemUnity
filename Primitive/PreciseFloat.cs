@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public struct PreciseFloat
+﻿public struct PreciseFloat
 {
 	public PreciseFloat(int _val) 
     {

@@ -209,11 +209,10 @@ public class Emitter : MonoBehaviour
 	}
 
 	public void Shoot() {
-		if (App.d)
-		{
-			if (! IsShootable()) 
-				Debug.LogError("Trying to shoot but is not shootable. Continue anyway.");
-		}
+#if UNITY_EDITOR
+		if (! IsShootable()) 
+			Debug.LogError("Trying to shoot but is not shootable. Continue anyway.");
+#endif
 
 		state = State.SHOOTING;
 	}

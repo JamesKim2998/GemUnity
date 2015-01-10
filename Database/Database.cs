@@ -54,11 +54,10 @@ public class Database<Type, Data> : MonoBehaviour, IDatabase, IEnumerable<Data>
 		m_DataDict.Clear();
 		m_DataList.Clear();
 
-		if (App.d)
-		{
-			dataPrfs.RemoveAll(_dataPrf => _dataPrf == null);
-			dataPrfs = dataPrfs.Distinct().ToList();
-		}
+#if UNITY_EDITOR
+		dataPrfs.RemoveAll(_dataPrf => _dataPrf == null);
+		dataPrfs = dataPrfs.Distinct().ToList();
+#endif
 
 		foreach (var _dataPrf in dataPrfs)
 		{

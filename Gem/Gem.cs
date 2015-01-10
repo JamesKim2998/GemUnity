@@ -1,7 +1,7 @@
-﻿using System;
+﻿#pragma warning disable 0168
+
 using Gem.In;
 using UnityEngine;
-using System.Collections;
 
 namespace Gem
 {
@@ -10,6 +10,7 @@ namespace Gem
 		void Awake()
 		{
 			var _appAwake = App.playing;
+			var _brAwake = Broadcaster.g;
 		}
 
 		void Update()
