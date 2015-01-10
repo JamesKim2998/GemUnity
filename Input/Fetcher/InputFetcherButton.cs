@@ -12,7 +12,7 @@ namespace Gem.In
 		{
 			if (string.IsNullOrEmpty(name))
 			{
-				L.E(L.DO.RETURN_, L.M.SHOULD_NOT_NULL(name));
+				L.E(L.DO.RETURN_, L.M.SHOULD_NOT_NULL("name"));
 				return;
 			}
 

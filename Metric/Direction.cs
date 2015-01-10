@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gem
@@ -16,7 +17,33 @@ namespace Gem
 	{
 		public const float DEADZONE_DEFAULT = 0.001f;
 
-		public static Direction ToDirection(Vector2 _vec, float _deadzone = DEADZONE_DEFAULT)
+		public static bool IsPointing(this Direction _dir)
+		{
+			return !(_dir.Has(Direction.R) && _dir.Has(Direction.L))
+			       && !(_dir.Has(Direction.U) && _dir.Has(Direction.D));
+		}
+
+		public static int HMag(this Direction _dir)
+		{
+			D.Assert(_dir.IsPointing());
+			if (_dir.Has(Direction.L))
+				return -1;
+			if (_dir.Has(Direction.R))
+				return 1;
+			return 0;
+		}
+
+		public static int VMag(this Direction _dir)
+		{
+
+			if (_dir.Has(Direction.D))
+				return -1;
+			if (_dir.Has(Direction.U))
+				return 1;
+			return 0;
+		}
+
+		public static Direction ToDirection(this Vector2 _vec, float _deadzone = DEADZONE_DEFAULT)
 		{
 			var _ret = new Direction();
 
@@ -33,21 +60,11 @@ namespace Gem
 			return _ret;
 		}
 
-		public static Vector2 ToVector2(Direction _dir)
+		public static Vector2 ToVector2(this Direction _dir)
 		{
-			var _ret = Vector2.zero;
-
-			if (_dir.Has(Direction.R))
-				_ret.x = 1;
-			else if (_dir.Has(Direction.L))
-				_ret.x = -1;
-
-			if (_dir.Has(Direction.U))
-				_ret.y = 1;
-			else if (_dir.Has(Direction.D))
-				_ret.y = -1;
-
-			return _ret;
+			D.Assert(IsPointing(_dir));
+			return new Vector2(_dir.HMag(), _dir.VMag());
 		}
+
 	}
 }

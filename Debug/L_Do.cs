@@ -23,6 +23,14 @@ namespace Gem
 				}
 			}
 
+			public static string BREAK
+			{
+				get
+				{
+					return d ? "break." : null;
+				}
+			}
+
 			public static string RETURN_
 			{
 				get

@@ -34,7 +34,7 @@ namespace Gem
 
 			var _callerMsg = "undefined";
 			if (_caller.id != 0)
-				_callerMsg = _caller.class_ + "." + _caller.method;
+				_callerMsg = _caller.descript;
 
 			_msg = _callerMsg + ": " + _msg;
 

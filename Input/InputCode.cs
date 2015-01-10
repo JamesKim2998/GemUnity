@@ -38,4 +38,27 @@
 		END,
 	}
 
+
+	public static class InputCodeHelper
+	{
+		public static InputCode ToInputCode(this Direction _dir)
+		{
+			D.Assert(EnumHelper.IsSingular(_dir));
+
+			switch (_dir)
+			{
+			case Direction.U:
+				return InputCode.U;
+			case Direction.D:
+				return InputCode.D;
+			case Direction.L:
+				return InputCode.L;
+			case Direction.R:
+				return InputCode.R;
+			default:
+				D.Assert(false);
+				return default(InputCode);
+			}
+		}
+	}
 }

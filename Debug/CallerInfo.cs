@@ -24,6 +24,7 @@ namespace Gem
 		public readonly ClassID id;
 		public readonly string class_;
 		public readonly string method;
+		public string descript { get { return class_ + "." + method; } }
 	}
 }
 

@@ -47,14 +47,17 @@ namespace Gem
 			}
 			#endregion
 
-			#region cast
+			#region cast/conversion
 			public static string CAST_FAIL
 			{
-				get
-				{
-					return d ? "cast fail." : null;
-				}
+				get { return d ? "cast fail." : null; }
 			}
+
+			public static string CONV_NARROW 
+			{
+				get { return d ? "narrow conversion." : null; }
+			}
+
 			#endregion
 
 			#region call
@@ -93,13 +96,9 @@ namespace Gem
 				}
 			}
 
-			public static string SHOULD_NOT_NULL<T>(T _val) where T : class
+			public static string SHOULD_NOT_NULL(string _name)
 			{
-				if (!d)
-					return null;
-				if (_val != null)
-					throw new Exception("should not null always should be used with value null.");
-				return typeof(T).Name + " is null.";
+				return d ? (_name + " is null.") : null;
 			}
 
 			public static string SHOULD_NULL<T>(T _val) where T : class
@@ -109,6 +108,13 @@ namespace Gem
 				if (_val == null)
 					throw new Exception("should null always should be used with value.");
 				return typeof(T).Name + " has value " + _val + ".";
+			}
+			#endregion
+
+			#region enumerator
+			public static string ENUMERATOR_INVALID
+			{
+				get { return d ? "enumerator invalid." : null; }
 			}
 			#endregion
 
