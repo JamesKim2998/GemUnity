@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Gem
 {
 	[Flags]
+	[Serializable]
 	public enum Direction
 	{
 		L = 1 << 0,

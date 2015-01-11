@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Gem
 {
+	[Serializable]
 	[DebuggerDisplay("size = {size}")]
 	public class Grid<T> : IEnumerable<T>
 	{

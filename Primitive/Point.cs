@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Gem
 {
 	[DebuggerDisplay("x = {x}, y = {y}")]
+	[Serializable]
 	public struct Point
 	{
 		public static Point ZERO = new Point();
