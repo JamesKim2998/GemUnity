@@ -47,10 +47,15 @@ namespace Gem
 			}
 			#endregion
 
-			#region cast/conversion
+			#region cast/parse/conversion
 			public static string CAST_FAIL
 			{
 				get { return d ? "cast fail." : null; }
+			}
+
+			public static string PARSE_FAIL<T>(T _val)
+			{
+				return d ? "parse fail " + _val : null;
 			}
 
 			public static string CONV_NARROW 
@@ -114,6 +119,13 @@ namespace Gem
 			{
 				if (!d) return null;
 				return _val + " range is invalid.";
+			}
+			#endregion
+
+			#region switch/case
+			public static string CASE_INVALID<T>(T _key)
+			{
+				return d ? "invalid case " + _key + "." : null;
 			}
 			#endregion
 

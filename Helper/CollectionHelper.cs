@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gem
 {
@@ -12,6 +13,7 @@ namespace Gem
 
 	public static class CollectionHelper
 	{
+
 		public static bool Remove<T>(this List<T> _c, Predicate<T> _pred)
 		{
 			var i = 0;
@@ -28,6 +30,22 @@ namespace Gem
 			}
 
 			return false;
+		}
+
+		public static void Resize<T>(this List<T> _c, int _size, T _init = default(T))
+		{
+			var _curSize = _c.Count;
+
+			if (_size < _curSize)
+			{
+				_c.RemoveRange(_size, _curSize - _size);
+			}
+			else if (_size > _curSize)
+			{
+				if (_size > _c.Capacity)
+					_c.Capacity = _size;
+				_c.AddRange(Enumerable.Repeat(_init, _size - _curSize));
+			}
 		}
 
 		public static void Add<T>(this LinkedList<T> _c, T _val, PositionType _position)

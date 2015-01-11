@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -45,6 +46,18 @@ namespace Gem
 			return (x > p.x) && (y > p.y);
 		}
 
+		public Point MultOTO(Point p)
+		{
+			return new Point(x * p.x, y * p.y);
+		}
+
+		public IEnumerable<Point> Range()
+		{
+			for (var _x = 0; _x != x; ++_x)
+				for (var _y = 0; _y != y; ++_y)
+					yield return new Point(_x, _y);
+		}
+
 		public static bool operator ==(Point a, Point b)
 		{
 			return (a.x == b.x)
@@ -69,6 +82,13 @@ namespace Gem
 		public static Point operator -(Point a, Point b)
 		{
 			return a + (-b);
+		}
+
+		public static Point operator /(Point _this, int _val)
+		{
+			if (!((_this.x%_val == 0) && (_this.y%_val == 0)))
+				L.W(L.M.CONV_NARROW);
+			return new Point(_this.x/_val, _this.y/_val);
 		}
 
 		public static implicit operator Vector2(Point _this)

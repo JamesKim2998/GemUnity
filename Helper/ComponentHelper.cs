@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public static class ComponentHelper {
-	public static T Instantiate<T>(this T _component) where T : Component
+namespace Gem
+{
+	public static class ComponentHelper
 	{
-		return ((GameObject)Object.Instantiate(_component.gameObject)).GetComponent<T>();
+		public static T Instantiate<T>(this T _comp) where T : Component
+		{
+			return ((GameObject)Object.Instantiate(_comp.gameObject)).GetComponent<T>();
+		}
 	}
 }

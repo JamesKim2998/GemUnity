@@ -1,17 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using LitJson;
-using UnityEngine;
 
 namespace Gem
 {
 	public static class JsonHelper
 	{
-		public static IEnumerable<KeyValuePair<string, JsonData>> Dictionary(this JsonData _data)
+		public static IEnumerable<KeyValuePair<string, JsonData>> GetEnumerable(this JsonData _data)
 		{
 			return _data.Cast<KeyValuePair<string, JsonData>>();
+		}
+
+		public static void AssignPrimitive(this JsonData _data, string _name, object _val)
+		{
+			var _type = _val.GetType();
+
+			if (_type == typeof(bool))
+				_data[_name] = (bool)_val;
+			else if (_type == typeof(int))
+				_data[_name] = (int)_val;
+			else if (_type == typeof(double))
+				_data[_name] = (double)_val;
+			else if (_type == typeof(string))
+				_data[_name] = (string)_val;
+			else
+				L.E(L.M.CASE_INVALID(_type));
 		}
 
 		public static string Key(this JsonReader _reader)
@@ -55,7 +69,7 @@ namespace Gem
 			return EnumHelper.TryParse((string) _reader.Value, out _ret);
 		}
 
-		public static JsonData DataWithFile(string _file)
+		public static JsonData DataWithRsc(string _file)
 		{
 			var _text = RscHelper.Text(_file);
 			if (_text == null) return null;

@@ -10,7 +10,7 @@ public class InputTest : MonoBehaviour
 
 	void Start ()
 	{
-		var _data = JsonHelper.DataWithFile("input.json");
+		var _data = JsonHelper.DataWithRsc("input.json");
 		var _map = gem.input.map;
 
 		foreach (var _kv in InputFetcherFactory.Read(_data))
