@@ -48,6 +48,12 @@ namespace Gem
 			}
 		}
 
+		public static IEnumerable<T> GetReverseEnum<T>(this List<T> _c)
+		{
+			for (var i = _c.Count - 1; i >= 0; i--)
+				yield return _c[i];
+		}
+
 		public static void Add<T>(this LinkedList<T> _c, T _val, PositionType _position)
 		{
 			if (_position == PositionType.FRONT)

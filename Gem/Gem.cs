@@ -1,11 +1,10 @@
 ﻿#pragma warning disable 0168
 
 using Gem.In;
-using UnityEngine;
 
 namespace Gem
 {
-	public class Gem : MonoBehaviour
+	public class TheGem : Singleton<TheGem>
 	{
 		void Awake()
 		{

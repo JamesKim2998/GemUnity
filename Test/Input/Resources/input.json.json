@@ -1,6 +1,0 @@
-{
-	"U": { "type": "KEY", "code": "UpArrow" },
-	"D": { "type": "KEY", "code": "DownArrow" },
-	"R": { "type": "KEY", "code": "RightArrow" },
-	"L": { "type": "KEY", "code": "LeftArrow" }
-}

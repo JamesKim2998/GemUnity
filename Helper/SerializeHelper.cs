@@ -14,14 +14,12 @@ namespace Gem
 			return s;
 		}
 
-#if UNITY_EDITOR
 		public static void SerializeToFile(this object o, string _path)
 		{
 			using (var s = o.Serialize())
 			using (var f = new FileStream(_path, FileMode.Create, FileAccess.Write))
 				s.WriteTo(f);
 		}
-#endif
 
 		public static T Deserialize<T>(this MemoryStream s)
 		{
@@ -30,7 +28,6 @@ namespace Gem
 			return (T) _formatter.Deserialize(s);
 		}
 
-#if UNITY_EDITOR
 		public static T DeserializeFile<T>(string _path)
 		{
 			using (var s = new MemoryStream())
@@ -42,7 +39,6 @@ namespace Gem
 				return Deserialize<T>(s);
 			}
 		}
-#endif
 	}
 
 }

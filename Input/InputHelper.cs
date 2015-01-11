@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LitJson;
+using UnityEngine;
 
 namespace Gem.In
 {
@@ -13,7 +14,7 @@ namespace Gem.In
 
 		public static Direction GetDirection(float _deadzone = DirectionHelper.DEADZONE_DEFAULT)
 		{
-			return DirectionHelper.ToDirection(GetAxis(), _deadzone);
+			return GetAxis().ToDirection(_deadzone);
 		}
 	}
 

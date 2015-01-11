@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using LitJson;
+using UnityEngine;
 
 namespace Gem
 {
@@ -69,11 +70,13 @@ namespace Gem
 			return EnumHelper.TryParse((string) _reader.Value, out _ret);
 		}
 
-		public static JsonData DataWithRsc(string _file)
+		public static JsonData DataWithRaw(Path_ _path)
 		{
-			var _text = RscHelper.Text(_file);
-			if (_text == null) return null;
-			return JsonMapper.ToObject(_text.text);
+			var _fullPath = Raw.FullPath(_path);
+			if (!_fullPath.HasValue) return null;
+			var s = Raw.Read(_fullPath.Value, FileMode.Open);
+			if (s == null) return null;
+			return JsonMapper.ToObject(s);
 		}
 
 		public static JsonReader ToReader(this JsonData _data)

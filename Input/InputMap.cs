@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LitJson;
 
 namespace Gem.In
 {
@@ -39,6 +40,12 @@ namespace Gem.In
 		public void Add(InputCode _code, IInputFetcher _fetcher) 
 		{
 			mMap[(int) _code].fetcher = _fetcher;
+		}
+
+		public void Load(JsonData _data)
+		{
+			foreach (var _kv in InputFetcherFactory.Read(_data))
+				Add(_kv.Key, _kv.Value);
 		}
 
 		public void Fetch()
