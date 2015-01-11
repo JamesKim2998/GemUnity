@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gem
@@ -16,6 +15,7 @@ namespace Gem
 
 	public static class DirectionHelper
 	{
+		public const int COUNT = 4;
 		public const float DEADZONE_DEFAULT = 0.001f;
 
 		public static bool IsPointing(this Direction _dir)
@@ -47,6 +47,11 @@ namespace Gem
 		public static Direction Neg(this Direction _dir)
 		{
 			return -new Point(_dir);
+		}
+
+		public static Direction Rand()
+		{
+			return (Direction) (1 << UnityEngine.Random.Range(0, COUNT));
 		}
 
 		public static Direction ToDirection(this Vector2 _vec, float _deadzone = DEADZONE_DEFAULT)
