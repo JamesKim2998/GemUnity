@@ -115,6 +115,12 @@ namespace Gem
 				return typeof(T).Name + " has value " + _val + ".";
 			}
 
+			public static string SHOULD_POS(string _name, int _val)
+			{
+				if (!d) return null;
+				return _name + " should always be positive, now " + _val + ".";
+			}
+
 			public static string RANGE_INVALID<T>(T _val)
 			{
 				if (!d) return null;
