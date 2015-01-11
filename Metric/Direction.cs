@@ -35,7 +35,7 @@ namespace Gem
 
 		public static int VMag(this Direction _dir)
 		{
-
+			D.Assert(_dir.IsPointing());
 			if (_dir.Has(Direction.D))
 				return -1;
 			if (_dir.Has(Direction.U))

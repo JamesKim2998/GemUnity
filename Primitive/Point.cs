@@ -7,6 +7,9 @@ namespace Gem
 	[DebuggerDisplay("x = {x}, y = {y}")]
 	public struct Point
 	{
+		public static Point ZERO = new Point();
+		public static Point ONE = new Point(1, 1);
+
 		public Point(int _x, int _y)
 		{
 			x = _x;
@@ -14,22 +17,19 @@ namespace Gem
 		}
 
 		public Point(Direction _dir)
-		{
-			D.Assert(_dir.IsPointing());
-			x = _dir.HMag();
-			y = _dir.VMag();
-		}
+			: this(_dir.HMag(), _dir.VMag())
+		{}
 
 		public Point(Vector2 _v)
+			: this((int) _v.x, (int) _v.y)
 		{
-			x = (int) _v.x;
-			y = (int) _v.y;
-
+#if UNITY_EDITOR
 			if ((Math.Abs(_v.x - x) > float.Epsilon)
 				|| (Math.Abs(_v.y - y) > float.Epsilon))
 			{
 				L.W(L.M.CONV_NARROW);
 			}
+#endif
 		}
 
 		public int x;

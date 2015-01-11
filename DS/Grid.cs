@@ -18,9 +18,15 @@ namespace Gem
 		public int h { get { return mGrid.GetLength(1); } }
 		public Point size { get { return new Point(w, h); } }
 
+		public bool CheckRange(Point _p)
+		{
+			return (_p.x >= 0 && _p.x < w)
+			       && (_p.y >= 0 && _p.y < h);
+		}
+
 		public bool TryGet(Point _p, out T _out)
 		{
-			if (! _p.Inner(size))
+			if (! CheckRange(_p))
 			{
 				_out = default(T);
 				return false;
@@ -32,13 +38,13 @@ namespace Gem
 
 		public T Get(Point _p)
 		{
-			D.Assert(_p.Inner(size));
+			D.Assert(CheckRange(_p));
 			return mGrid[_p.x, _p.y];
 		}
 
 		public bool TrySet(Point _p, T _data)
 		{
-			if (! _p.Inner(size))
+			if (! CheckRange(_p))
 				return false;
 
 			Set(_p, _data);

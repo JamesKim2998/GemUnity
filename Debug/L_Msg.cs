@@ -109,6 +109,12 @@ namespace Gem
 					throw new Exception("should null always should be used with value.");
 				return typeof(T).Name + " has value " + _val + ".";
 			}
+
+			public static string RANGE_INVALID<T>(T _val)
+			{
+				if (!d) return null;
+				return _val + " range is invalid.";
+			}
 			#endregion
 
 			#region enumerator
