@@ -52,6 +52,11 @@ namespace Gem
 				if (!d) return null;
 				return "return " + _val + ".";
 			}
+
+			public static string REPLACE(string _name)
+			{
+				return d ? "replace " + _name + "." : null;
+			}
 		}
 	}
 

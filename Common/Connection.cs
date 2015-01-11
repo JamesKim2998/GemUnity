@@ -78,6 +78,6 @@ namespace Gem
 
 		protected override void DoConn(ActionWrap<T> _ev) { _ev.val += Fire; }
 		protected override void DoDis(ActionWrap<T> _ev) { _ev.val -= Fire; }
-		private void Fire(T _param) { mAct.CheckAndCall(ref _param); }
+		private void Fire(T _param) { mAct.CheckAndCall(_param); }
 	}
 }

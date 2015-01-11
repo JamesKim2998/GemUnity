@@ -13,6 +13,11 @@ namespace Gem
 
 	public static class CollectionHelper
 	{
+		public static IEnumerable<T> GetReverseEnum<T>(this T[] _c)
+		{
+			for (var i = _c.Length - 1; i >= 0; i--)
+				yield return _c[i];
+		}
 
 		public static bool Remove<T>(this List<T> _c, Predicate<T> _pred)
 		{

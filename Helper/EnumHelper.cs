@@ -5,6 +5,11 @@ namespace Gem
 {
 	public static class EnumHelper
 	{
+		public static bool IsDefault(this Enum _enum)
+		{
+			return Convert.ToUInt64(_enum) == 0;
+		}
+
 		public static bool Has<T>(this Enum _enum, T _val)
 		{
 			var _valInt = Convert.ToUInt64(_val);
