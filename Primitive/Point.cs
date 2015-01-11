@@ -92,6 +92,23 @@ namespace Gem
 			return new Point(_this.x/_val, _this.y/_val);
 		}
 
+		public static implicit operator Direction(Point _this)
+		{
+			var _ret = default(Direction);
+
+			if (_this.x > 0)
+				_ret |= Direction.R;
+			else if (_this.x < 0)
+				_ret |= Direction.L;
+
+			if (_this.y > 0)
+				_ret |= Direction.U;
+			else if (_this.y < 0)
+				_ret |= Direction.D;
+
+			return _ret;
+		}
+
 		public static implicit operator Vector2(Point _this)
 		{
 			return new Vector2(_this.x, _this.y);

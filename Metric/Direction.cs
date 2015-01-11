@@ -44,6 +44,11 @@ namespace Gem
 			return 0;
 		}
 
+		public static Direction Neg(this Direction _dir)
+		{
+			return -new Point(_dir);
+		}
+
 		public static Direction ToDirection(this Vector2 _vec, float _deadzone = DEADZONE_DEFAULT)
 		{
 			var _ret = new Direction();
@@ -67,5 +72,19 @@ namespace Gem
 			return new Vector2(_dir.HMag(), _dir.VMag());
 		}
 
+		public static Direction MakeWithAbbr(string _abbr)
+		{
+			var _ret = default(Direction);
+
+			foreach (var _c in _abbr)
+			{
+				Direction _dir;
+				if (!EnumHelper.TryParse(_c.ToString(), out _dir))
+					continue;
+				_ret |= _dir;
+			}
+
+			return _ret;
+		}
 	}
 }
