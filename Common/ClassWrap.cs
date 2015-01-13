@@ -14,4 +14,6 @@ namespace Gem
 
 	public class ActionWrap : ClassWrap<Action> { }
 	public class ActionWrap<T1> : ClassWrap<Action<T1>> { }
+	public class ActionWrap<T1, T2> : ClassWrap<Action<T1, T2>> { }
+	public class ActionWrap<T1, T2, T3> : ClassWrap<Action<T1, T2, T3>> { }
 }

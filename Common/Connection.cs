@@ -80,4 +80,15 @@ namespace Gem
 		protected override void DoDis(ActionWrap<T> _ev) { _ev.val -= Fire; }
 		private void Fire(T _param) { mAct.CheckAndCall(_param); }
 	}
+
+	public sealed class Connection<T1, T2> : ConnectionBase<Action<T1, T2>, ActionWrap<T1, T2>>
+	{
+		public Connection(Action<T1, T2> _act)
+			: base(_act)
+		{ }
+
+		protected override void DoConn(ActionWrap<T1, T2> _ev) { _ev.val += Fire; }
+		protected override void DoDis(ActionWrap<T1, T2> _ev) { _ev.val -= Fire; }
+		private void Fire(T1 _param1, T2 _param2) { mAct.CheckAndCall(_param1, _param2); }
+	}
 }
