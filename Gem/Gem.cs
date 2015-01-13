@@ -14,10 +14,8 @@ namespace Gem
 
 		void Update()
 		{
-			input.Update();
+			InputManager.g.Update();
 		}
-
-		public readonly InputManager input = new InputManager();
 	}
 
 }

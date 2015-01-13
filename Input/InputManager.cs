@@ -5,6 +5,7 @@ namespace Gem.In
 {
 	public class InputManager
 	{
+		public static readonly InputManager g = new InputManager();
 		public readonly InputMap map = new InputMap();
 		private readonly Binder[] mBinders = new Binder[(int) InputCode.END];
 

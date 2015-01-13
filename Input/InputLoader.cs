@@ -9,7 +9,7 @@ namespace Gem.In
 		void Start()
 		{
 			var _data = JsonHelper.DataWithRaw(new Path_(inputFile));
-			TheGem.g.input.map.Load(_data);
+			InputManager.g.map.Load(_data);
 		}
 	}
 }
