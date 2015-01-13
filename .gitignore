@@ -1,2 +1,3 @@
-/Library
-/Library.meta
+/Library/*.cs
+/Library/*.meta
+/Library/LitJson
