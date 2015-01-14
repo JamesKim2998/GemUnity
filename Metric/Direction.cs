@@ -77,6 +77,24 @@ namespace Gem
 			return new Vector2(_dir.HMag(), _dir.VMag());
 		}
 
+		public static int ToDeg(this Direction _dir)
+		{
+			switch (_dir)
+			{
+				case Direction.L:
+					return 180;
+				case Direction.R:
+					return 0;
+				case Direction.U:
+					return 90;
+				case Direction.D:
+					return 270;
+				default:
+					D.Assert(false);
+					return 0;
+			}
+		}
+
 		public static Direction MakeWithAbbr(string _abbr)
 		{
 			var _ret = default(Direction);

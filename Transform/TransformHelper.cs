@@ -1,80 +1,35 @@
 using UnityEngine;
-using System.Collections;
 
-public static class TransformHelper
+namespace Gem
 {
-	public static Vector2 DegToVector(float _degree) 
+	public static class TransformHelper
 	{
-		return new Vector2(
-			Mathf.Cos(Mathf.Deg2Rad * _degree), 
-			Mathf.Sin(Mathf.Deg2Rad * _degree));
+		public static void SetEulerZ(this Transform _this, float _val)
+		{
+			var _euler = _this.localEulerAngles;
+			_euler.z = _val;
+			_this.localEulerAngles = _euler;
+		}
+
+		public static void SetParentIdentity(this Transform _this, Transform _parent)
+		{
+			var _pos = _this.localPosition;
+			var _rot = _this.localRotation;
+			var _scale = _this.localScale;
+			_this.parent = _parent;
+			_this.localPosition = _pos;
+			_this.localRotation = _rot;
+			_this.localScale = _scale;
+		}
+
+		public static void SetParentWithoutScale(this Transform _this, Transform _parent)
+		{
+			var _scale = _this.localScale;
+			_this.parent = _parent.transform;
+			_this.localScale = _scale;
+		}
 	}
 
-	public static float VectorToRad(Vector2 _vector)
-	{
-		return Mathf.Atan2(_vector.y, _vector.x);
-	}
 
-	public static float VectorToDeg(Vector2 _vector)
-	{
-		return Mathf.Rad2Deg * VectorToRad(_vector);
-	}
 
-	#region identity
-
-	public static void SetParentIdentity(GameObject _child, GameObject _parent )
-	{
-		var _position = _child.transform.localPosition;
-        var _rotation = _child.transform.localRotation;
-        var _scale = _child.transform.localScale;
-		_child.transform.parent = _parent.transform;
-		_child.transform.localPosition = _position;
-        _child.transform.localRotation = _rotation;
-        _child.transform.localScale = _scale;
-    }
-
-	public static void SetParentIdentity<T>(GameObject _child, T _parent) where T : Component
-	{
-		SetParentIdentity(_child, _parent.gameObject);
-	}
-
-	public static void SetParentIdentity<T>(T _child, GameObject _parent) where T : Component
-	{
-		SetParentIdentity(_child.gameObject, _parent);
-	}
-
-	public static void SetParentIdentity<T1, T2>(T1 _child, T2 _parent)
-		where T1 : Component
-		where T2 : Component
-	{
-		SetParentIdentity(_child.gameObject, _parent.gameObject);
-	}
-	#endregion
-
-	#region without scale
-	public static void SetParentWithoutScale(GameObject _child, GameObject _parent )
-	{
-		var _scale = _child.transform.localScale;
-		_child.transform.parent = _parent.transform;
-		_child.transform.localScale = _scale;
-	}
-
-	public static void SetParentWithoutScale<T>(GameObject _child, T _parent) where T : Component
-	{
-		SetParentWithoutScale(_child, _parent.gameObject);
-	}
-
-	public static void SetParentWithoutScale<T>(T _child, GameObject _parent) where T : Component
-	{
-		SetParentWithoutScale(_child.gameObject, _parent);
-	}
-
-	public static void SetParentWithoutScale<T1, T2>(T1 _child, T2 _parent)
-		where T1 : Component
-		where T2 : Component
-	{
-		SetParentWithoutScale(_child.gameObject, _parent.gameObject);
-	}
-	#endregion
 }
-
