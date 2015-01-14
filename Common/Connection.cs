@@ -18,19 +18,17 @@ namespace Gem
 
 		public bool isConn { get; private set; }
 		
-		public bool Conn(E _ev)
+		public void Conn(E _ev)
 		{
 			if (isConn)
 			{
-				L.W(L.DO.RETURN(false), L.M.CALL_RETRY("connect"));
-				return false;
+				L.W(L.DO.REPLACE("connection"), L.M.CALL_RETRY("connect"));
+				Dis();
 			}
 
 			isConn = true;
 			DoConn(_ev);
 			mEv = new WeakReference(_ev);
-
-			return true;
 		}
 
 		public bool Dis()
