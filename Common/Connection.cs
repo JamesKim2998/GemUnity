@@ -7,7 +7,6 @@ namespace Gem
 	{
 		protected ConnectionBase(A _act)
 		{
-			isConn = false;
 			mAct = _act;
 		}
 
@@ -16,7 +15,7 @@ namespace Gem
 			if (isConn) Dis();
 		}
 
-		public bool isConn { get; private set; }
+		public bool isConn { get { return (mEv != null) && mEv.IsAlive; } }
 		
 		public void Conn(E _ev)
 		{
@@ -26,9 +25,8 @@ namespace Gem
 				Dis();
 			}
 
-			isConn = true;
-			DoConn(_ev);
 			mEv = new WeakReference(_ev);
+			DoConn(_ev);
 		}
 
 		public bool Dis()
@@ -37,16 +35,10 @@ namespace Gem
 			{
 				L.W(L.DO.RETURN(false), L.M.CALL_RETRY("disconnect"));
 				return false;
-			}
+			} 
 
-			isConn = false;
-
-			if (mEv.IsAlive)
-			{
-				DoDis(mEv.Target as E);
-				mEv = null;
-			}
-
+			DoDis(mEv.Target as E);
+			mEv = null;
 			return true;
 		}
 
