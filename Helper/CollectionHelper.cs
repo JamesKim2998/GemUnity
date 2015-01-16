@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +14,23 @@ namespace Gem
 
 	public static class CollectionHelper
 	{
+		public static bool Empty<T>(this T _c) where T : ICollection
+		{
+			return _c.Count == 0;
+		}
+
 		public static IEnumerable<T> GetReverseEnum<T>(this T[] _c)
 		{
 			for (var i = _c.Length - 1; i >= 0; i--)
 				yield return _c[i];
+		}
+
+		public static bool RemoveBack<T>(this List<T> _c)
+		{
+			if (_c.Count == 0)
+				return false;
+			_c.RemoveAt(_c.Count - 1);
+			return true;
 		}
 
 		public static bool Remove<T>(this List<T> _c, Predicate<T> _pred)
@@ -93,6 +107,13 @@ namespace Gem
 				L.D(L.DO.RETURN(false), L.M.KEY_EXISTS(_key));
 				return false;
 			}
+		}
+
+		public static bool TryRemove<K, V>(this IDictionary<K, V> _c, K _key)
+		{
+			var _ret = _c.Remove(_key);
+			if (!_ret) L.D(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_key));
+			return _ret;
 		}
 
 		public static bool GetAndRemove<K, V>(this IDictionary<K, V> _c, K _key, out V _val)
