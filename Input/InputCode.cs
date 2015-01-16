@@ -31,16 +31,13 @@
 		/// toggle debug mode
 		/// </summary>
 		DEBUG,
-
-		/// <summary>
-		/// internal use only
-		/// </summary>
-		END,
 	}
 
 
 	public static class InputCodeHelper
 	{
+		public const int COUNT = 13;
+
 		public static InputCode ToInputCode(this Direction _dir)
 		{
 			D.Assert(EnumHelper.IsSingular(_dir));

@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace Gem.In
 {
@@ -63,6 +61,7 @@ namespace Gem.In
 
 		public bool isConn { get; private set; }
 		private readonly InputManager mInput;
-		private readonly Dictionary<InputCode, InputHandler> mDict = new Dictionary<InputCode, InputHandler>();
+		private readonly Dictionary<InputCode, InputHandler> mDict 
+			= new Dictionary<InputCode, InputHandler>();
 	}
 }

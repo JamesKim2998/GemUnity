@@ -5,7 +5,7 @@ namespace Gem.In
 {
 	public class InputMap
 	{
-		private const int SIZE = (int) InputCode.END;
+		private const int SIZE = InputCodeHelper.COUNT;
 
 		private class FetcherAndState
 		{

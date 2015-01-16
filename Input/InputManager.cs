@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gem.In
 {
-	public class InputManager
+	public enum InputMaskKey {}
+
+	public partial class InputManager
 	{
+		private const int SIZE = InputCodeHelper.COUNT;
+
 		public static readonly InputManager g = new InputManager();
+
 		public readonly InputMap map = new InputMap();
-		private readonly Binder[] mBinders = new Binder[(int) InputCode.END];
+		private readonly Binder[] mBinders = new Binder[SIZE];
+		public InputMask mask { get; private set; }
+
+		InputManager()
+		{
+			mask = new InputMask(0);
+		}
 
 		private Binder Binder_(InputCode _code)
 		{
@@ -21,11 +33,15 @@ namespace Gem.In
 
 		public void Reg(InputCode _code, InputHandler _handler, PositionType _position = PositionType.BACK)
 		{
+			D.Assert(!IsDebugLocked());
+
 			Binder_(_code).chain.Add(new HandlerState(_handler), _position);
 		}
 
 		public void Unreg(InputCode _code, InputHandler _handler)
 		{
+			D.Assert(!IsDebugLocked());
+
 			var _isListening = false;
 			var _binder = Binder_(_code);
 
@@ -72,7 +88,7 @@ namespace Gem.In
 			IEnumerable<HandlerState> _chain,
 			ICollection<HandlerState> _listeners)
 		{
-			foreach (var _data in _chain)
+			foreach (var _data in _chain.Reverse())
 			{
 				var _handler = _data.handler;
 				if (!_handler.active) continue;
@@ -99,7 +115,7 @@ namespace Gem.In
 			IEnumerable<HandlerState> _chain,
 			ICollection<HandlerState> _listeners)
 		{
-			foreach (var _data in _chain)
+			foreach (var _data in _chain.Reverse())
 			{
 				// opt
 				// note: 새롭게 추가되는 상황을 고려합니다.
@@ -127,6 +143,9 @@ namespace Gem.In
 				if (_binder == null)
 					continue;
 
+				if (mask[_code])
+					continue;
+
 				var _state = map[_code];
 				var _chain = _binder.chain;
 				var _listeners = _binder.listeners;
@@ -141,7 +160,7 @@ namespace Gem.In
 				}
 				else if (_state.isOn)
 				{
-					foreach (var _listener in _listeners)
+					foreach (var _listener in _listeners.GetReverseEnum())
 						_listener.handler.update();
 				}
 				else if (_state.isUp)
