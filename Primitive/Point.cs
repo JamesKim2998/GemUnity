@@ -92,7 +92,7 @@ namespace Gem
 			return new Point(_this.x/_val, _this.y/_val);
 		}
 
-		public static implicit operator Direction(Point _this)
+		public static explicit operator Direction(Point _this)
 		{
 			var _ret = default(Direction);
 

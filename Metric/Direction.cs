@@ -46,7 +46,7 @@ namespace Gem
 
 		public static Direction Neg(this Direction _dir)
 		{
-			return -new Point(_dir);
+			return (Direction) (-new Point(_dir));
 		}
 
 		public static Direction Rand()
@@ -79,6 +79,8 @@ namespace Gem
 
 		public static int ToDeg(this Direction _dir)
 		{
+			D.Assert(EnumHelper.IsSingular(_dir));
+
 			switch (_dir)
 			{
 				case Direction.L:
