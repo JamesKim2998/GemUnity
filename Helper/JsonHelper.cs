@@ -1,14 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LitJson;
-using UnityEngine;
 
 namespace Gem
 {
 	public static class JsonHelper
 	{
-		public static IEnumerable<KeyValuePair<string, JsonData>> GetEnumerable(this JsonData _data)
+		public static IEnumerable<JsonData> GetListEnum(this JsonData _data)
+		{
+			var _enum = ((IList)_data).GetEnumerator();
+			while (_enum.MoveNext()) yield return (JsonData)_enum.Current;
+		}
+
+		public static IEnumerable<KeyValuePair<string, JsonData>> GetDictEnum(this JsonData _data)
 		{
 			return _data.Cast<KeyValuePair<string, JsonData>>();
 		}

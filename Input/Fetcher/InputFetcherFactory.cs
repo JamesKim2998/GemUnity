@@ -36,7 +36,7 @@ namespace Gem.In
 
 		public static IEnumerable<KeyValuePair<InputCode, IInputFetcher>> Read(JsonData _data)
 		{
-			foreach (var _kv in _data.GetEnumerable())
+			foreach (var _kv in _data.GetDictEnum())
 			{
 				var _codeStr = _kv.Key;
 
