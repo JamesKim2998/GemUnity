@@ -130,11 +130,27 @@ namespace Gem
 			}
 		}
 
+		public static bool Empty<T>(this HashSet<T> _c)
+		{
+			return _c.Count == 0;
+		}
+
 		public static bool TryAdd<T>(this HashSet<T> _c, T _val)
 		{
 			if (! _c.Add(_val))
 			{
 				L.E(L.DO.RETURN(false), L.M.KEY_EXISTS(_val));
+				return false;
+			}
+
+			return true;
+		}
+
+		public static bool TryRemove<T>(this HashSet<T> _c, T _val)
+		{
+			if (! _c.Remove(_val))
+			{
+				L.E(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_val));
 				return false;
 			}
 
