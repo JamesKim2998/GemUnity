@@ -20,12 +20,16 @@ namespace Gem.In
 				_org.Down();
 			else if (Input.GetKeyUp(code))
 				_org.Up();
-			else 
+			else
 			{
-#if UNITY_EDITOR
-				if (Input.GetKey(code) != _org.isOn)
-					L.W(L.DO.NOTHING, L.M.STATE_INVALID);
-#endif
+				var _on = Input.GetKey(code);
+
+				if (_on != _org.isOn)
+				{
+					L.W("invalid fetch state. fix state.");
+					if (_on) _org.Down();
+					else _org.Up();
+				}
 			}
 		}
 	}

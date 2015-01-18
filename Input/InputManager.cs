@@ -18,8 +18,14 @@ namespace Gem.In
 
 		private bool mIsPropagating;
 
-		private readonly List<InputBind> mUnregAfterTick
-			= new List<InputBind>();
+		struct RegData
+		{
+			public InputBind bind;
+			public InputPriority priority;
+		}
+
+		private readonly List<RegData> mRegAfterTick = new List<RegData>();
+		private readonly List<InputBind> mUnregAfterTick = new List<InputBind>();
 
 		InputManager()
 		{}
@@ -34,23 +40,35 @@ namespace Gem.In
 			return map[_code];
 		}
 
-		public void Reg(InputBind _bind, PositionType _position = PositionType.BACK)
+		public void Reg(InputBind _bind, InputPriority _priority = InputPriority.BACK)
 		{
 			D.Assert(!IsDebugLocked());
-			D.Assert(!mIsPropagating);
-			Reg(_bind, (_position == PositionType.FRONT) 
-				? InputPriority.FRONT : InputPriority.BACK);
+
+			if (mIsPropagating)
+			{
+				L.W("is propagating. reg after tick.");
+				RegAfterTick(_bind, _priority);
+				return;
+			}
+
+			Binder_(_bind.code).chain.Enqueue(new HandlerState(_bind.handler), (int) _priority);
 		}
 
-		public void Reg(InputBind _bind, InputPriority _priority)
+		public void RegAfterTick(InputBind _bind, InputPriority _priority)
 		{
-			Binder_(_bind.code).chain.Enqueue(new HandlerState(_bind.handler), (int) _priority);
+			mRegAfterTick.Add(new RegData { bind = _bind, priority = _priority });
 		}
 
 		public void Unreg(InputBind _bind)
 		{
 			D.Assert(!IsDebugLocked());
-			D.Assert(!mIsPropagating);
+
+			if (mIsPropagating)
+			{
+				L.W("is propagating. unreg after tick.");
+				UnregAfterTick(_bind);
+				return;
+			}
 
 			var _code = _bind.code;
 			var _handler = _bind.handler;
@@ -90,24 +108,32 @@ namespace Gem.In
 			mUnregAfterTick.Add(_bind);
 		}
 
-		private void DoUnregAfterTick()
+		private void ResolveReg()
 		{
-			if (mUnregAfterTick.Empty())
-				return;
-			foreach (var _bind in mUnregAfterTick)
-				Unreg(_bind);
-			mUnregAfterTick.Clear();
+			if (!mRegAfterTick.Empty())
+			{
+				foreach (var _regData in mRegAfterTick)
+					Reg(_regData.bind, _regData.priority);
+				mRegAfterTick.Clear();
+			}
+
+			if (!mUnregAfterTick.Empty())
+			{
+				foreach (var _bind in mUnregAfterTick)
+					Unreg(_bind);
+				mUnregAfterTick.Clear();
+			}
 		}
 
 		public void Update()
 		{
-			DoUnregAfterTick();
+			ResolveReg();
 
 			TickAndFetch();
 
 			Propagate();
 
-			DoUnregAfterTick();
+			ResolveReg();
 		}
 
 		private void TickAndFetch()
