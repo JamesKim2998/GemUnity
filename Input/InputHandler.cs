@@ -39,4 +39,16 @@ namespace Gem.In
 		/// </summary>
 		public Action update;
 	}
+
+	public struct InputBind
+	{
+		public InputBind(InputCode _code, InputHandler _handler)
+		{
+			code = _code;
+			handler = _handler;
+		}
+
+		public InputCode code;
+		public InputHandler handler;
+	}
 }

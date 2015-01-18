@@ -18,7 +18,7 @@ namespace Gem.In
 		}
 
 		public static void DecorateDirection(
-			this InputGroup _group, 
+			this InputGroup _this, 
 			Func<Direction, bool> _down, 
 			Action<Direction> _update)
 		{
@@ -26,12 +26,24 @@ namespace Gem.In
 			{
 				var _dirCpy = _dir;
 				var _handler = new InputHandler { down = () => _down(_dirCpy) };
-				if (_handler.listen = (_update != null))
+				_handler.listen = (_update != null);
+				if (_handler.listen)
 					_handler.update = () => _update(_dirCpy);
-				_group.Add(_dir.ToInputCode(), _handler);
+				_this.Add(new InputBind(_dir.ToInputCode(), _handler));
 			}
 
-			_group.Reg();
+			_this.Reg();
+		}
+
+		public static Func<bool> MakeOneShot(this InputBind _this, Func<bool> _down)
+		{
+			return delegate
+			{
+				var _ret = _down();
+				_this.handler.active = false;
+				InputManager.g.UnregAfterTick(_this);
+				return _ret;
+			};
 		}
 	}
 

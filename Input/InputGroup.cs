@@ -25,8 +25,8 @@ namespace Gem.In
 
 			isConn = true;
 
-			foreach (var kv in mDict)
-				mInput.Reg(kv.Key, kv.Value);
+			foreach (var _bind in mBinds)
+				mInput.Reg(_bind);
 		}
 
 		public void Unreg()
@@ -39,29 +39,24 @@ namespace Gem.In
 
 			isConn = false;
 
-			foreach (var kv in mDict)
-				mInput.Unreg(kv.Key, kv.Value);
+			foreach (var _bind in mBinds)
+				mInput.Unreg(_bind);
 		}
 
-		public bool Add(InputCode _code, InputHandler _handler)
+		public void Add(InputBind _bind)
 		{
-			var _ret = mDict.TryAdd(_code, _handler);
-			if (_ret && isConn) mInput.Reg(_code, _handler);
-			return _ret;
+			mBinds.Add(_bind);
+			if (isConn) mInput.Reg(_bind);
 		}
 
-		public bool Remove(InputCode _code)
+		public void Remove(InputBind _bind)
 		{
-			InputHandler _handler;
-			var _ret = mDict.GetAndRemove(_code, out _handler);
-			if (_ret && isConn) mInput.Unreg(_code, _handler);
-			return _ret;
+			mBinds.Remove(_bind);
+			if (isConn) mInput.Unreg(_bind);
 		}
-
 
 		public bool isConn { get; private set; }
 		private readonly InputManager mInput;
-		private readonly Dictionary<InputCode, InputHandler> mDict 
-			= new Dictionary<InputCode, InputHandler>();
+		private readonly List<InputBind> mBinds = new List<InputBind>();
 	}
 }

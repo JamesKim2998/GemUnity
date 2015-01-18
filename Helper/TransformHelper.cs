@@ -28,8 +28,17 @@ namespace Gem
 			_this.parent = _parent.transform;
 			_this.localScale = _scale;
 		}
+
+		public static void CastRectAndAssignWith(this Transform _this, Transform _other)
+		{
+			((RectTransform)_this.transform).AssignWith((RectTransform)_other.transform);
+		}
+
+		public static void AssignWith(this RectTransform _this, RectTransform _other)
+		{
+			_this.offsetMin = _other.offsetMin;
+			_this.offsetMax = _other.offsetMax;
+		}
 	}
-
-
 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Priority_Queue;
 
 namespace Gem.In
 {
@@ -14,12 +15,14 @@ namespace Gem.In
 
 		public readonly InputMap map = new InputMap();
 		private readonly Binder[] mBinders = new Binder[SIZE];
-		public InputMask mask { get; private set; }
+
+		private bool mIsPropagating;
+
+		private readonly List<InputBind> mUnregAfterTick
+			= new List<InputBind>();
 
 		InputManager()
-		{
-			mask = new InputMask(0);
-		}
+		{}
 
 		private Binder Binder_(InputCode _code)
 		{
@@ -31,16 +34,26 @@ namespace Gem.In
 			return map[_code];
 		}
 
-		public void Reg(InputCode _code, InputHandler _handler, PositionType _position = PositionType.BACK)
+		public void Reg(InputBind _bind, PositionType _position = PositionType.BACK)
 		{
 			D.Assert(!IsDebugLocked());
-
-			Binder_(_code).chain.Add(new HandlerState(_handler), _position);
+			D.Assert(!mIsPropagating);
+			Reg(_bind, (_position == PositionType.FRONT) 
+				? InputPriority.FRONT : InputPriority.BACK);
 		}
 
-		public void Unreg(InputCode _code, InputHandler _handler)
+		public void Reg(InputBind _bind, InputPriority _priority)
+		{
+			Binder_(_bind.code).chain.Enqueue(new HandlerState(_bind.handler), (int) _priority);
+		}
+
+		public void Unreg(InputBind _bind)
 		{
 			D.Assert(!IsDebugLocked());
+			D.Assert(!mIsPropagating);
+
+			var _code = _bind.code;
+			var _handler = _bind.handler;
 
 			var _isListening = false;
 			var _binder = Binder_(_code);
@@ -57,7 +70,7 @@ namespace Gem.In
 				}
 			});
 
-			if (! _binder.chain.Remove(_doCompare))
+			if (! _binder.chain.RemoveIf(_doCompare))
 			{
 				L.W(L.DO.RETURN_, L.M.KEY_NOT_EXISTS(_code));
 				return;
@@ -65,17 +78,36 @@ namespace Gem.In
 
 			if (_isListening)
 			{
-				if (!_binder.listeners.Remove(_data => (_data.handler == _handler)))
+				if (!_binder.listeners.RemoveIf(_data => (_data.handler == _handler)))
 				{
 					L.E(L.DO.NOTHING, L.M.KEY_NOT_EXISTS(_code));
 				}
 			}
 		}
 
+		public void UnregAfterTick(InputBind _bind)
+		{
+			mUnregAfterTick.Add(_bind);
+		}
+
+		private void DoUnregAfterTick()
+		{
+			if (mUnregAfterTick.Empty())
+				return;
+			foreach (var _bind in mUnregAfterTick)
+				Unreg(_bind);
+			mUnregAfterTick.Clear();
+		}
+
 		public void Update()
 		{
+			DoUnregAfterTick();
+
 			TickAndFetch();
+
 			Propagate();
+
+			DoUnregAfterTick();
 		}
 
 		private void TickAndFetch()
@@ -132,8 +164,10 @@ namespace Gem.In
 			_listeners.Clear();
 		}
 
-		private void Propagate() 
+		private void Propagate()
 		{
+			mIsPropagating = true;
+
 			var _codeRaw = 0;
 
 			foreach (var _binder in mBinders)
@@ -141,9 +175,6 @@ namespace Gem.In
 				var _code = (InputCode) _codeRaw++;
 
 				if (_binder == null)
-					continue;
-
-				if (mask[_code])
 					continue;
 
 				var _state = map[_code];
@@ -168,9 +199,11 @@ namespace Gem.In
 					PropagateUp(_chain, _listeners);
 				}
 			}
+
+			mIsPropagating = false;
 		}
 
-		private class HandlerState
+		private class HandlerState : PriorityQueueNode
 		{
 			public HandlerState(InputHandler _handler)
 			{
@@ -185,7 +218,7 @@ namespace Gem.In
 
 		private class Binder
 		{
-			public readonly LinkedList<HandlerState> chain = new LinkedList<HandlerState>();
+			public readonly HeapPriorityQueue<HandlerState> chain = new HeapPriorityQueue<HandlerState>(8);
 			public readonly List<HandlerState> listeners = new List<HandlerState>();
 		}
 	}

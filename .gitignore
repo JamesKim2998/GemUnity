@@ -1,3 +1,4 @@
 /Library/*.cs
 /Library/*.meta
 /Library/LitJson
+/Library/PriorityQueue

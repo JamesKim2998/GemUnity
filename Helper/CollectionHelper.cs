@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Priority_Queue;
 
 namespace Gem
 {
@@ -33,7 +34,7 @@ namespace Gem
 			return true;
 		}
 
-		public static bool Remove<T>(this List<T> _c, Predicate<T> _pred)
+		public static bool RemoveIf<T>(this List<T> _c, Predicate<T> _pred)
 		{
 			var i = 0;
 
@@ -81,7 +82,7 @@ namespace Gem
 				_c.AddLast(_val);
 		}
 
-		public static bool Remove<T>(this LinkedList<T> _c, Predicate<T> _pred)
+		public static bool RemoveIf<T>(this LinkedList<T> _c, Predicate<T> _pred)
 		{
 			for (var _node = _c.First; _node != null; _node = _node.Next)
 			{
@@ -155,6 +156,20 @@ namespace Gem
 			}
 
 			return true;
+		}
+
+		public static bool RemoveIf<T>(this HeapPriorityQueue<T> _c, Predicate<T> _pred) where T: PriorityQueueNode
+		{
+			foreach (var _node in _c)
+			{
+				if (_pred(_node))
+				{
+					_c.Remove(_node);
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
