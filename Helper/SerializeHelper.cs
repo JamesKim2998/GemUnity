@@ -1,12 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace Gem
 {
 	public static class SerializeHelper
 	{
-		public static MemoryStream Serialize(this object o)
+		public static MemoryStream Enc(this object o)
 		{
 			var s = new MemoryStream();
 			var _formatter = new BinaryFormatter();
@@ -14,29 +16,43 @@ namespace Gem
 			return s;
 		}
 
-		public static void SerializeToFile(this object o, string _path)
+		public static void Enc(this object o, Path_ _path)
 		{
-			using (var s = o.Serialize())
+			using (var s = o.Enc())
 			using (var f = new FileStream(_path, FileMode.Create, FileAccess.Write))
 				s.WriteTo(f);
 		}
 
-		public static T Deserialize<T>(this MemoryStream s)
+		public static T Dec<T>(this MemoryStream s)
 		{
 			IFormatter _formatter = new BinaryFormatter();
 			s.Seek(0, SeekOrigin.Begin);
 			return (T) _formatter.Deserialize(s);
 		}
 
-		public static T DeserializeFile<T>(string _path)
+		public static bool Dec<T>(Path_ _path, out T _data)
 		{
 			using (var s = new MemoryStream())
-			using (var f = new FileStream(_path, FileMode.Open, FileAccess.Read))
 			{
-				var _bytes = new byte[f.Length];
-				f.Read(_bytes, 0, (int)f.Length);
-				s.Write(_bytes, 0, (int)f.Length);
-				return Deserialize<T>(s);
+				try
+				{
+					using (var f = new FileStream(_path, FileMode.Open, FileAccess.Read))
+					{
+						var _bytes = new byte[f.Length];
+						f.Read(_bytes, 0, (int) f.Length);
+						s.Write(_bytes, 0, (int) f.Length);
+					}
+
+				}
+				catch (Exception _e)
+				{
+					Debug.LogException(_e);
+					_data = default(T);
+					return false;
+				}
+
+				_data = Dec<T>(s);
+				return true;
 			}
 		}
 	}

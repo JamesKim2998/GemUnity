@@ -96,6 +96,16 @@ namespace Gem
 			return false;
 		}
 
+		public static bool TryGet<K, V>(this IDictionary<K, V> _c, K _key, out V _val)
+		{
+			if (!_c.TryGetValue(_key, out _val))
+			{
+				L.D(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_key));
+				return false;
+			}
+			return true;
+		}
+
 		public static bool TryAdd<K, V>(this IDictionary<K, V> _c, K _key, V _val)
 		{
 			try
