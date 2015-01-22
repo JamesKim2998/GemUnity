@@ -74,6 +74,28 @@ namespace Gem
 				yield return _c[i];
 		}
 
+		public static int BinarySearch<T>(this IList<T> _c, Func<T, int> _cmp)
+		{
+			var _min = 0;
+			var _max = _c.Count - 1;
+
+			while (_min <= _max)
+			{
+				var _mid = (_min + _max) / 2;
+				var _cmpVal = _cmp(_c[_mid]);
+
+				if (_cmpVal == 0)
+					return _mid;
+
+				if (_cmpVal < 0)
+					_min = _mid + 1;
+				else
+					_max = _mid - 1;
+			}
+
+			return ~_min;
+		}
+
 		public static void Add<T>(this LinkedList<T> _c, T _val, PositionType _position)
 		{
 			if (_position == PositionType.FRONT)
