@@ -1,5 +1,5 @@
-﻿using System.Linq;
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
