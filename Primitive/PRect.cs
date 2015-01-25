@@ -1,8 +1,9 @@
-﻿using System;
+﻿using System.Diagnostics;
 using UnityEngine;
 
 namespace Gem
 {
+	[DebuggerDisplay("org = {org}, size = {size}")]
 	public struct PRect
 	{
 		public Point org;
@@ -93,6 +94,14 @@ namespace Gem
 			D.Assert(IsSorted() && r.IsSorted());
 			return (ox <= r.dx) && (dx >= r.ox)
 			       && (oy <= r.dy) && (dy >= r.oy);
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				return (dst.GetHashCode() * 397) ^ org.GetHashCode();
+			}
 		}
 	}
 }

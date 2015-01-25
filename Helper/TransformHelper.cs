@@ -4,6 +4,13 @@ namespace Gem
 {
 	public static class TransformHelper
 	{
+		public static void SetPosY(this Transform _this, float _val)
+		{
+			var _pos = _this.position;
+			_pos.y = _val;
+			_this.position = _pos;
+		}
+
 		public static void SetEulerZ(this Transform _this, float _val)
 		{
 			var _euler = _this.localEulerAngles;

@@ -163,6 +163,22 @@ namespace Gem
 			}
 		}
 
+		public static void RemoveIf<K, V>(this IDictionary<K, V> _c, Predicate<K> _pred)
+		{
+			var _remove = new List<K>();
+
+			foreach (var _kv in _c)
+			{
+				if (_pred(_kv.Key))
+					_remove.Add(_kv.Key);
+			}
+
+			foreach (var _key in _remove)
+			{
+				_c.Remove(_key);
+			}
+		}
+
 		public static bool Empty<T>(this HashSet<T> _c)
 		{
 			return _c.Count == 0;

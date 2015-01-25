@@ -12,6 +12,7 @@ namespace Gem
 	{
 		public static readonly Point ZERO = new Point();
 		public static readonly Point ONE = new Point(1, 1);
+		public static readonly Point NULL = new Point(-51351215, -87453421);
 
 		public Point(int _x, int _y)
 		{
