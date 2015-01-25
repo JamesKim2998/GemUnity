@@ -34,7 +34,7 @@ namespace Gem
 	{
 		private readonly string mValue;
 
-		public FullPath(Path_ _path)
+		public FullPath(string _path)
 		{
 			if (string.IsNullOrEmpty(_path))
 				L.W(L.M.SHOULD_NOT_NULL("path"));

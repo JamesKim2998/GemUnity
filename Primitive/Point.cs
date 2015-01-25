@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using LitJson;
 using UnityEngine;
 
 namespace Gem
@@ -9,8 +10,8 @@ namespace Gem
 	[Serializable]
 	public struct Point
 	{
-		public static Point ZERO = new Point();
-		public static Point ONE = new Point(1, 1);
+		public static readonly Point ZERO = new Point();
+		public static readonly Point ONE = new Point(1, 1);
 
 		public Point(int _x, int _y)
 		{
@@ -136,6 +137,23 @@ namespace Gem
 		public override string ToString()
 		{
 			return "(" + x + ", " + y + ")";
+		}
+
+		public static Point Parse(JsonData _json)
+		{
+			return new Point((int) _json[0], (int) _json[1]);
+		}
+
+		public static bool TryParse(JsonData _json, out Point p)
+		{
+			if (!_json.IsArray || !_json[0].IsInt || !_json[1].IsInt)
+			{
+				p = ZERO;
+				return false;
+			}
+
+			p = Parse(_json);
+			return true;
 		}
 	}
 }
