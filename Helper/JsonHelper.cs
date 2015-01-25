@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -76,11 +77,17 @@ namespace Gem
 			return EnumHelper.TryParse((string) _reader.Value, out _ret);
 		}
 
+		[Obsolete]
 		public static JsonData DataWithRaw(Path_ _path)
 		{
 			var _fullPath = Raw.FullPath(_path);
 			if (!_fullPath.HasValue) return null;
-			var s = Raw.Read(_fullPath.Value, FileMode.Open);
+			return DataWithRaw(_fullPath.Value);
+		}
+
+		public static JsonData DataWithRaw(FullPath _path)
+		{
+			var s = Raw.Read(_path, FileMode.Open);
 			if (s == null) return null;
 			return JsonMapper.ToObject(s);
 		}
