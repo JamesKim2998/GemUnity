@@ -25,11 +25,11 @@ namespace Gem
 		{}
 
 		public Point(Vector2 _v)
-			: this((int) _v.x, (int) _v.y)
+			: this((int) (_v.x + float.Epsilon), (int) (_v.y + float.Epsilon))
 		{
 #if UNITY_EDITOR
-			if ((Math.Abs(_v.x - x) > float.Epsilon)
-				|| (Math.Abs(_v.y - y) > float.Epsilon))
+			if ((Math.Abs(_v.x - x) > 2 * float.Epsilon)
+				|| (Math.Abs(_v.y - y) > 2 * float.Epsilon))
 			{
 				L.W(L.M.CONV_NARROW);
 			}

@@ -1,9 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Gem
 {
 	public static class MetricHelper
 	{
+		public static Point Ceiling(this Vector2 _this)
+		{
+			return new Point(
+				(int)Math.Ceiling(_this.x - float.Epsilon),
+				(int)Math.Ceiling(_this.y - float.Epsilon));
+		}
+
+		public static Point Floor(this Vector2 _this)
+		{
+			return new Point(
+				(int)Math.Floor(_this.x + float.Epsilon),
+				(int)Math.Floor(_this.y + float.Epsilon));
+		}
+
 		public static Vector2 DegToVector(float _degree)
 		{
 			return new Vector2(
