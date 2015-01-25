@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Gem
 {
@@ -6,30 +7,30 @@ namespace Gem
 	{
 		public Prefab(GameObject _go)
 		{
-			mGO = _go;
+			go = _go;
 		}
 
 		public GameObject Instantiate()
 		{
-			return mGO.Instantiate();
+			return go.Instantiate();
 		}
 
-		private readonly GameObject mGO;
+		public readonly GameObject go;
 	}
 
-	public struct Prefab<T> where T: Component
+	public struct Prefab<T> where T : Component
 	{
 		public Prefab(T _go)
 		{
-			mGO = _go;
+			go = _go;
 		}
 
 		public T Instantiate()
 		{
-			return mGO.Instantiate();
+			return go.Instantiate();
 		}
 
-		private readonly T mGO;
+		public readonly T go;
 	}
 
 }

@@ -4,6 +4,14 @@ namespace Gem
 {
 	public static class TransformHelper
 	{
+		public static void SetPos(this Transform _this, Vector2 _val)
+		{
+			var _pos = _this.position;
+			_pos.x = _val.x;
+			_pos.y = _val.y;
+			_this.position = _pos;
+		}
+
 		public static void SetPosY(this Transform _this, float _val)
 		{
 			var _pos = _this.position;
