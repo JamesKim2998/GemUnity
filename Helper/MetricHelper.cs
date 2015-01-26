@@ -5,6 +5,11 @@ namespace Gem
 {
 	public static class MetricHelper
 	{
+		public static bool InRadius(this Vector2 a, Vector2 b, float _range = float.Epsilon)
+		{
+			return a.x.InRadius(b.x, _range) && a.y.InRadius(b.y, _range);
+		}
+
 		public static Point Ceiling(this Vector2 _this)
 		{
 			return new Point(

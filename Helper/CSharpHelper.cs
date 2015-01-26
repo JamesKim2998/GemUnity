@@ -4,6 +4,11 @@ namespace Gem
 {
 	public static class CSharpHelper
 	{
+		public static bool InRadius(this float a, float b, float _range = float.Epsilon)
+		{
+			return Math.Abs(a - b) < _range;
+		}
+
 		public static void Swap<T>(ref T a, ref T b)
 		{
 			var _tmp = a;

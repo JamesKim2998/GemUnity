@@ -6,6 +6,9 @@ namespace Gem
 	[DebuggerDisplay("org = {org}, size = {size}")]
 	public struct PRect
 	{
+		public static readonly PRect ZERO = new PRect(Point.ZERO);
+		public static readonly PRect ONE = new PRect { org = Point.ZERO, dst = Point.ONE };
+
 		public Point org;
 		public Point dst;
 
