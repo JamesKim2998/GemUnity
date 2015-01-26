@@ -21,6 +21,13 @@ namespace Gem
 
 		public static void SetEulerZ(this Transform _this, float _val)
 		{
+			var _euler = _this.eulerAngles;
+			_euler.z = _val;
+			_this.eulerAngles = _euler;
+		}
+
+		public static void SetLocalEulerZ(this Transform _this, float _val)
+		{
 			var _euler = _this.localEulerAngles;
 			_euler.z = _val;
 			_this.localEulerAngles = _euler;
