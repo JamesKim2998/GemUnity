@@ -32,12 +32,18 @@ namespace Gem
 
 		public List<int> Contains(Point p)
 		{
-			return Overlaps(new PRect(p));
+			return Overlaps(new PRect { org = p, size = Point.ONE });
 		}
 
 		public List<int> Overlaps(PRect _rect)
 		{
 			Sort();
+
+			_rect = new PRect
+			{
+				org = _rect.org + Point.ONE,
+				dst = _rect.dst - Point.ONE,
+			};
 
 			var l = mL.BinarySearch(_idxVal => _idxVal.val - _rect.dx);
 			var r = mR.BinarySearch(_idxVal => _idxVal.val - _rect.ox);
