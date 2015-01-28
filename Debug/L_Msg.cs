@@ -143,6 +143,12 @@ namespace Gem
 			#endregion
 
 			#region collection
+
+			public static string ARR_EXCEED(string _arr, int _idx)
+			{
+				return d ? (_arr + " limit exceed " + _idx + ".") : null;
+			}
+
 			public static string KEY_EXISTS<T>(T _key)
 			{
 				if (!d)

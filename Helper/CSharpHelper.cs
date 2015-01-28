@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Gem
 {
@@ -42,6 +43,12 @@ namespace Gem
 		{
 			D.Assert(_from.CompareTo(_to) <= 0);
 			return (_this.CompareTo(_from) >= 0) && (_this.CompareTo(_to) <= 0);
+		}
+
+		public static void Clear(this StringBuilder _this)
+		{
+			_this.Length = 0;
+			_this.Capacity = 0;
 		}
 	}
 }

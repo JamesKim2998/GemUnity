@@ -122,7 +122,7 @@ namespace Gem
 		{
 			if (!_c.TryGetValue(_key, out _val))
 			{
-				L.D(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_key));
+				L.W(L.DO.RETURN(false), L.M.KEY_NOT_EXISTS(_key));
 				return false;
 			}
 			return true;
@@ -137,7 +137,7 @@ namespace Gem
 			}
 			catch (Exception)
 			{
-				L.D(L.DO.RETURN(false), L.M.KEY_EXISTS(_key));
+				L.W(L.DO.RETURN(false), L.M.KEY_EXISTS(_key));
 				return false;
 			}
 		}
