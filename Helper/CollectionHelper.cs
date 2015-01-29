@@ -128,6 +128,12 @@ namespace Gem
 			return true;
 		}
 
+		public static V GetOrDefault<K, V>(this IDictionary<K, V> _c, K _key, V _default = default(V))
+		{
+			V _val;
+			return _c.TryGetValue(_key, out _val) ? _val : _default;
+		}
+
 		public static bool TryAdd<K, V>(this IDictionary<K, V> _c, K _key, V _val)
 		{
 			try

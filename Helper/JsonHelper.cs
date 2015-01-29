@@ -20,6 +20,19 @@ namespace Gem
 			return _data.Cast<KeyValuePair<string, JsonData>>();
 		}
 
+		public static int IntOrDefault(this JsonData _this, string _key, int _default = 0)
+		{
+			JsonData _data;
+			if (_this.TryGet(_key, out _data))
+			{
+				if (_data.IsInt)
+					return (int) _data;
+				else 
+					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(int)));
+			}
+			return _default;
+		}
+
 		public static void AssignPrimitive(this JsonData _data, string _name, object _val)
 		{
 			var _type = _val.GetType();
