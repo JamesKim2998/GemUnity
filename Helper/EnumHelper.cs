@@ -62,6 +62,12 @@ namespace Gem
 			L.D(L.DO.RETURN(false), L.M.ENUM_UNDEFINED(_str));
 			return false;
 		}
+
+		public static T ParseOrDefault<T>(string _str)
+		{
+			T _ret;
+			return TryParse(_str, out _ret) ? _ret : default(T);
+		}
 	}
 
 }
