@@ -117,7 +117,7 @@ namespace Gem
 			}
 
 			if (_result.pos != null)
-				transform.SetPos(_result.pos.Value);
+				transform.position = _result.pos.Value;
 			if (_result.rot != null)
 				transform.SetEulerZ(_result.rot.Value);
 

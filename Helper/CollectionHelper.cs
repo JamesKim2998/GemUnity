@@ -52,6 +52,24 @@ namespace Gem
 			return false;
 		}
 
+		public static T FindAndRemoveIf<T>(this List<T> _c, Predicate<T> _pred) 
+		{
+			var i = 0;
+
+			foreach (var _data in _c)
+			{
+				if (_pred(_data))
+				{
+					_c.RemoveAt(i);
+					return _data;
+				}
+
+				i++;
+			}
+
+			return default(T);
+		}
+
 		public static void Resize<T>(this List<T> _c, int _size, T _init = default(T))
 		{
 			var _curSize = _c.Count;
@@ -94,6 +112,12 @@ namespace Gem
 			}
 
 			return ~_min;
+		}
+
+		public static T Rand<T>(this IList<T> _c)
+		{
+			D.Assert(_c.Count != 0);
+			return _c[UnityEngine.Random.Range(0, _c.Count)];
 		}
 
 		public static void Add<T>(this LinkedList<T> _c, T _val, PositionType _position)
