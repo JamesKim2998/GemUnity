@@ -20,7 +20,7 @@ namespace Gem
 
 #if UNITY_EDITOR
 			string _dicStr;
-			if (mDic.TryGet(_val, out _dicStr))
+			if (mDic.TryGetValue(_val, out _dicStr))
 				D.Assert(_dicStr == _str);
 			else
 				mDic.Add(_val, _str);

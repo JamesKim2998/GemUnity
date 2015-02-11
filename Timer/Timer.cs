@@ -5,6 +5,8 @@ namespace Gem
 {
 	public class Timer
 	{
+		public static Timer g = new Timer();
+
 		public enum Key {}
 
 		private struct Alarm
