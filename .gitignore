@@ -2,3 +2,5 @@
 /Library/*.meta
 /Library/LitJson
 /Library/PriorityQueue
+/Library/tk2d.meta
+/Library/tk2d
