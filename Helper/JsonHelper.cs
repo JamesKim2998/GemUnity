@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LitJson;
+using UnityEngine;
 
 namespace Gem
 {
@@ -116,6 +117,33 @@ namespace Gem
 			var s = Raw.Read(_path, FileMode.Open);
 			if (s == null) return null;
 			return JsonMapper.ToObject(s);
+		}
+
+		public static bool ObjectWithRaw<T>(FullPath _path, out T _obj)
+		{
+			var s = Raw.Read(_path, FileMode.Open);
+			if (s == null)
+			{
+				_obj = default(T);
+				return false;
+			}
+
+			using (s)
+			using (TextReader _txt = new StreamReader(s.BaseStream))
+			{
+				try
+				{
+					_obj = JsonMapper.ToObject<T>(new JsonReader(_txt));
+					return true;
+				}
+				catch (Exception e)
+				{
+					Debug.LogException(e);
+					L.E("cannot read " + _path + " as json.");
+					_obj = default(T);
+					return false;
+				}
+			}
 		}
 
 		public static JsonReader ToReader(this JsonData _data)
