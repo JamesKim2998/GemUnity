@@ -9,7 +9,7 @@ namespace Gem
 		{
 			if (_val) return;
 			var _caller = new CallerInfo(1);
-			throw new Exception(_caller.descript + ": assertion failed.");
+			L.E(_caller.descript + ": assertion failed.");
 		}
 	}
 }
