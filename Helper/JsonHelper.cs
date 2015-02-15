@@ -20,6 +20,19 @@ namespace Gem
 			return _data.Cast<KeyValuePair<string, JsonData>>();
 		}
 
+		public static bool BoolOrDefault(this JsonData _this, string _key, bool _default = false)
+		{
+			JsonData _data;
+			if (_this.TryGet(_key, out _data))
+			{
+				if (_data.IsBoolean)
+					return (bool)_data;
+				else
+					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(bool)));
+			}
+			return _default;
+		}
+
 		public static int IntOrDefault(this JsonData _this, string _key, int _default = 0)
 		{
 			JsonData _data;
