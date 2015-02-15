@@ -42,8 +42,6 @@ namespace Gem.In
 
 		public void Reg(InputBind _bind, InputPriority _priority = InputPriority.BACK)
 		{
-			D.Assert(!IsDebugLocked());
-
 			if (mIsPropagating)
 			{
 				L.W("is propagating. reg after tick.");
@@ -61,8 +59,6 @@ namespace Gem.In
 
 		public void Unreg(InputBind _bind)
 		{
-			D.Assert(!IsDebugLocked());
-
 			if (mIsPropagating)
 			{
 				L.W("is propagating. unreg after tick.");
