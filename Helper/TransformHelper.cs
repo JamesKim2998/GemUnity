@@ -198,6 +198,20 @@ namespace Gem
 			_this.offsetMax = o;
 		}
 
+		public static void SetParentIdentity(this RectTransform _this, RectTransform _parent)
+		{
+			var _oldLocalScale = _this.localScale;
+			var _oldPivot = _this.pivot;
+			var _oldOffsetMax = _this.offsetMax;
+			var _oldOffsetMin = _this.offsetMin;
+
+			_this.SetParent(_parent);
+			_this.localScale = _oldLocalScale;
+			_this.pivot = _oldPivot;
+			_this.offsetMax = _oldOffsetMax;
+			_this.offsetMin = _oldOffsetMin;
+		}
+
 		public static void Fill(this RectTransform _this)
 		{
 			var _size = _this.Size();
