@@ -26,6 +26,13 @@ namespace Gem
 			_this.position = _pos;
 		}
 
+		public static void SetPosZ(this Transform _this, float _val)
+		{
+			var _pos = _this.position;
+			_pos.z = _val;
+			_this.position = _pos;
+		}
+
 		public static void SetLPosX(this Transform _this, float _val)
 		{
 			var _pos = _this.localPosition;
@@ -37,6 +44,13 @@ namespace Gem
 		{
 			var _pos = _this.localPosition;
 			_pos.y = _val;
+			_this.localPosition = _pos;
+		}
+
+		public static void SetLPosZ(this Transform _this, float _val)
+		{
+			var _pos = _this.localPosition;
+			_pos.z = _val;
 			_this.localPosition = _pos;
 		}
 
@@ -184,6 +198,14 @@ namespace Gem
 			_this.offsetMax = o;
 		}
 
+		public static void Fill(this RectTransform _this)
+		{
+			var _size = _this.Size();
+			_this.offsetMin = new Vector2(0, 0);
+			_this.offsetMax = _size;
+			_this.SetLPosZ(0);
+			_this.localScale = Vector3.one;
+		}
 	}
 
 }
