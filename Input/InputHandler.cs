@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gem.In
+namespace Gem
 {
 	public class InputHandler
 	{

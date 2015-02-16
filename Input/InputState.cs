@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Gem.In
+﻿namespace Gem
 {
 	public struct InputState
 	{

@@ -15,6 +15,8 @@ namespace Gem.In
 				Unreg();
 		}
 
+		public int count { get { return mBinds.Count; } }
+
 		public void Reg()
 		{
 			if (isConn)

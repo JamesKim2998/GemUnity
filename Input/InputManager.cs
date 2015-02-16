@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Priority_Queue;
 
-namespace Gem.In
+namespace Gem
 {
 	public enum InputMaskKey {}
 
-	public partial class InputManager
+	public class InputManager
 	{
 		private const int SIZE = InputCodeHelper.COUNT;
 

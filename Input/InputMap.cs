@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using LitJson;
+﻿using LitJson;
 
-namespace Gem.In
+namespace Gem
 {
 	public class InputMap
 	{

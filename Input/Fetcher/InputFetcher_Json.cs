@@ -1,6 +1,6 @@
 ﻿using LitJson;
 
-namespace Gem.In
+namespace Gem
 {
 	public partial class InputFetcherButton
 	{

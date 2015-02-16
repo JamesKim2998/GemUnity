@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Gem.In
+namespace Gem
 {
 	[Serializable]
 	public partial class InputFetcherButton : IInputFetcher

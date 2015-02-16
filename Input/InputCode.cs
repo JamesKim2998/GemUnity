@@ -1,4 +1,4 @@
-﻿namespace Gem.In
+﻿namespace Gem
 {
 	public enum InputCode
 	{
@@ -31,12 +31,14 @@
 		/// toggle debug mode
 		/// </summary>
 		DEBUG,
+
+		ESC, RET,
 	}
 
 
 	public static class InputCodeHelper
 	{
-		public const int COUNT = 13;
+		public const int COUNT = 15;
 
 		public static InputCode ToInputCode(this Direction _dir)
 		{

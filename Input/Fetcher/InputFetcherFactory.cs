@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LitJson;
-using Debug = UnityEngine.Debug;
 
-namespace Gem.In
+namespace Gem
 {
 	public enum InputFetcherType
 	{

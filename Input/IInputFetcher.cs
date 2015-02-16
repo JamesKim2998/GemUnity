@@ -1,4 +1,4 @@
-﻿namespace Gem.In
+﻿namespace Gem
 {
 	public interface IInputFetcher
 	{
