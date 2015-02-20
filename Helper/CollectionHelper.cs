@@ -120,6 +120,20 @@ namespace Gem
 			return _c[UnityEngine.Random.Range(0, _c.Count)];
 		}
 
+		public static void Shuffle<T>(this IList<T> c)
+		{
+			var _rng = new Random();
+			var n = c.Count;
+			while (n > 1)
+			{
+				n--;
+				var k = _rng.Next(n + 1);
+				var value = c[k];
+				c[k] = c[n];
+				c[n] = value;
+			}
+		}
+
 		public static void Add<T>(this LinkedList<T> _c, T _val, PositionType _position)
 		{
 			if (_position == PositionType.FRONT)
