@@ -20,9 +20,7 @@ namespace Gem
 		public static void SetLevel(V _v)
 		{
 			var _caller = new CallerInfo(1);
-			var _id = _caller.id;
-			if (sVMap.ContainsKey(_id))
-				sVMap[_id] = _v;
+			sVMap[_caller.id] = _v;
 		}
 
 		private static void Log(int _depth, V _v, string _msg)
