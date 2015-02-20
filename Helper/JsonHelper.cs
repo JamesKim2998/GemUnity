@@ -116,7 +116,20 @@ namespace Gem
 		{
 			var s = Raw.Read(_path, FileMode.Open);
 			if (s == null) return null;
-			return JsonMapper.ToObject(s);
+
+#if UNITY_EDITOR
+			try
+			{
+#endif
+				return JsonMapper.ToObject(s);
+#if UNITY_EDITOR
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+				return null;
+			}
+#endif
 		}
 
 		public static bool ObjectWithRaw<T>(FullPath _path, out T _obj)
