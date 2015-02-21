@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Choanji;
+using UnityEngine;
 
 namespace Gem.In
 {
@@ -10,7 +11,9 @@ namespace Gem.In
 		void Start()
 		{
 			var _data = JsonHelper.DataWithRaw(new FullPath(FILE_PATH / inputFile));
-			InputManager.g.map.Load(_data);
+			TheInput.intro.map.Load(_data);
+			TheInput.world.map.Load(_data);
+			TheInput.battle.map.Load(_data);
 		}
 	}
 }

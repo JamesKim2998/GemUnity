@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Gem.In
+namespace Gem
 {
 	public static class InputHelper
 	{
@@ -35,13 +35,13 @@ namespace Gem.In
 			_this.Reg();
 		}
 
-		public static Func<bool> MakeOneShot(this InputBind _this, Func<bool> _down)
+		public static Func<bool> MakeOneShot(this InputBind _this, InputManager _input, Func<bool> _down)
 		{
 			return delegate
 			{
 				var _ret = _down();
 				_this.handler.active = false;
-				InputManager.g.UnregAfterTick(_this);
+				_input.UnregAfterTick(_this);
 				return _ret;
 			};
 		}

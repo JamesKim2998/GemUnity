@@ -1,7 +1,5 @@
 ﻿#pragma warning disable 0168
 
-using Gem.In;
-
 namespace Gem
 {
 	public class TheGem : Singleton<TheGem>
@@ -10,11 +8,6 @@ namespace Gem
 		{
 			var _appAwake = App.playing;
 			var _brAwake = Broadcaster.g;
-		}
-
-		void Update()
-		{
-			InputManager.g.Update();
 		}
 	}
 

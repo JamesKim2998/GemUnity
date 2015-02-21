@@ -11,8 +11,6 @@ namespace Gem
 	{
 		private const int SIZE = InputCodeHelper.COUNT;
 
-		public static readonly InputManager g = new InputManager();
-
 		public readonly InputMap map = new InputMap();
 		private readonly Binder[] mBinders = new Binder[SIZE];
 
@@ -27,7 +25,7 @@ namespace Gem
 		private readonly List<RegData> mRegAfterTick = new List<RegData>();
 		private readonly List<InputBind> mUnregAfterTick = new List<InputBind>();
 
-		InputManager()
+		public InputManager()
 		{}
 
 		private Binder Binder_(InputCode _code)

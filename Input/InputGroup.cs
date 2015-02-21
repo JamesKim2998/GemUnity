@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gem.In
+namespace Gem
 {
 	public class InputGroup
 	{
