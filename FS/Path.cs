@@ -41,6 +41,11 @@ namespace Gem
 			mValue = _path;
 		}
 
+		public bool Exists()
+		{
+			return File.Exists(mValue);
+		}
+
 		public static implicit operator string(FullPath _this)
 		{
 			return _this.mValue;
