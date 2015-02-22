@@ -152,6 +152,12 @@ namespace Gem
 			_this.anchorMax = _vec;
 		}
 
+		public static void SetAnchor(this RectTransform _this, Vector2 _vec)
+		{
+			_this.anchorMin = _vec;
+			_this.anchorMax = _vec;
+		}
+
 		public static void SetSize(this RectTransform _this, Vector2 _size)
 		{
 			var _sizeOld = _this.rect.size;
