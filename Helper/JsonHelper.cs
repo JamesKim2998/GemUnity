@@ -132,6 +132,21 @@ namespace Gem
 #endif
 		}
 
+		public static bool ObjectWithData<T>(JsonData _data, out T _obj)
+		{
+			try
+			{
+				_obj = JsonMapper.ToObject<T>(_data.ToReader());
+				return true;
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+				_obj = default(T);
+				return false;
+			}
+		}
+
 		public static bool ObjectWithRaw<T>(FullPath _path, out T _obj)
 		{
 			var s = Raw.Read(_path, FileMode.Open);
