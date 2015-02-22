@@ -78,6 +78,11 @@ namespace Gem
 
 			return new string(_hex.ToArray());
 		}
+
+		public static RectTransform RectTransform(this GameObject _this)
+		{
+			return (RectTransform)_this.transform;
+		}
 	}
 
 }
