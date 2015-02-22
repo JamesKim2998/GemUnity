@@ -41,7 +41,7 @@ namespace Gem
 			}
 
 			_ret = default(T);
-			L.D(L.DO.RETURN(false), L.M.ENUM_UNDEFINED(_str));
+			L.W(L.DO.RETURN(false), L.M.ENUM_UNDEFINED(_str));
 			return false;
 		}
 
@@ -59,7 +59,7 @@ namespace Gem
 			}
 
 			_ret = default(T);
-			L.D(L.DO.RETURN(false), L.M.ENUM_UNDEFINED(_str));
+			L.W(L.DO.RETURN(false), L.M.ENUM_UNDEFINED(_str));
 			return false;
 		}
 
