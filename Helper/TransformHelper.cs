@@ -214,11 +214,10 @@ namespace Gem
 
 		public static void Fill(this RectTransform _this)
 		{
-			var _size = _this.Size();
-			_this.offsetMin = new Vector2(0, 0);
-			_this.offsetMax = _size;
-			_this.SetLPosZ(0);
-			_this.localScale = Vector3.one;
+			_this.anchorMin = Vector2.zero;
+			_this.anchorMax = Vector2.one;
+			_this.offsetMin = Vector2.zero;
+			_this.offsetMax = Vector2.zero;
 		}
 	}
 
