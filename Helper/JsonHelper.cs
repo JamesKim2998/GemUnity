@@ -47,6 +47,19 @@ namespace Gem
 			return _default;
 		}
 
+		public static string StringOrDefault(this JsonData _this, string _key, string _default = "")
+		{
+			JsonData _data;
+			if (_this.TryGet(_key, out _data))
+			{
+				if (_data.IsString)
+					return (string)_data;
+				else
+					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(string)));
+			}
+			return _default;
+		}
+
 		public static void AssignPrimitive(this JsonData _data, string _name, object _val)
 		{
 			var _type = _val.GetType();
