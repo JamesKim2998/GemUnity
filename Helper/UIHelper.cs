@@ -31,6 +31,11 @@ namespace Gem
 			_c.b = _val;
 			_this.color = _c;
 		}
+
+		public static string RichAddColor(string _txt, string _color)
+		{
+			return string.Format("<color=#{0}>{1}</color>", _color, _txt);
+		}
 	}
 
 }
