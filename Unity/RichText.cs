@@ -1,7 +1,6 @@
-﻿using Gem;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Choanji
+namespace Gem
 {
 	public class RichText
 	{
