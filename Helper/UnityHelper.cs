@@ -63,6 +63,20 @@ namespace Gem
 			return true;
 		}
 
+		public static Color32 ToColor32(this Color _this)
+		{
+			return new Color32(
+				(byte)(_this.r * 255),
+				(byte)(_this.g * 255),
+				(byte)(_this.b * 255),
+				(byte)(_this.a * 255));
+		}
+
+		public static string ToHex(this Color _this)
+		{
+			return _this.ToColor32().ToHex();
+		}
+
 		public static string ToHex(this Color32 _this)
 		{
 			var _hex = new List<char>(8);
