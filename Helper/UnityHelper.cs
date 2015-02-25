@@ -45,22 +45,22 @@ namespace Gem
 				return false;
 			}
 
-			var o = 0;
-			if (_raw.Length == 8)
-			{
-				o = 2;
-				_c.a = TwoHexToDec(_raw[0], _raw[1]);
-			}
-			else
-			{
-				_c.a = 255;
-			}
+			_c.r = TwoHexToDec(_raw[0], _raw[1]);
+			_c.g = TwoHexToDec(_raw[2], _raw[3]);
+			_c.b = TwoHexToDec(_raw[4], _raw[5]);
 
-			_c.r = TwoHexToDec(_raw[o + 0], _raw[o + 1]);
-			_c.g = TwoHexToDec(_raw[o + 2], _raw[o + 3]);
-			_c.b = TwoHexToDec(_raw[o + 4], _raw[o + 5]);
+			if (_raw.Length == 8)
+				_c.a = TwoHexToDec(_raw[6], _raw[7]);
+			else
+				_c.a = 255;
 
 			return true;
+		}
+
+		public static Color32 ColorOrDefault(string _raw, Color32 _default = default(Color32))
+		{
+			Color32 c;
+			return TryParse(_raw, out c) ? c : _default;
 		}
 
 		public static Color32 ToColor32(this Color _this)
