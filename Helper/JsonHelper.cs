@@ -21,43 +21,78 @@ namespace Gem
 			return _data.Cast<KeyValuePair<string, JsonData>>();
 		}
 
-		public static bool BoolOrDefault(this JsonData _this, string _key, bool _default = false)
+		public static bool TryGet(this JsonData _this, string _key, out string _val)
+		{
+			JsonData _data;
+
+			if (_this.TryGet(_key, out _data))
+			{
+				if (_data.IsString)
+				{
+					_val = (string) _data;
+					return true;
+				}
+				else
+				{
+					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(string)));
+				}
+			}
+
+			_val = string.Empty;
+			return false;
+		}
+
+		public static bool TryGet(this JsonData _this, string _key, out bool _val)
 		{
 			JsonData _data;
 			if (_this.TryGet(_key, out _data))
 			{
 				if (_data.IsBoolean)
-					return (bool)_data;
+				{
+					_val = (bool) _data;
+				}
 				else
 					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(bool)));
 			}
-			return _default;
+
+			_val = default(bool);
+			return false;
 		}
 
-		public static int IntOrDefault(this JsonData _this, string _key, int _default = 0)
+		public static bool TryGet(this JsonData _this, string _key, out int _val)
 		{
 			JsonData _data;
 			if (_this.TryGet(_key, out _data))
 			{
 				if (_data.IsInt)
-					return (int) _data;
-				else 
+				{
+					_val = (int) _data;
+					return true;
+				}
+				else
 					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(int)));
 			}
-			return _default;
+
+			_val = default(int);
+			return false;
+		}
+
+		public static bool BoolOrDefault(this JsonData _this, string _key, bool _default = false)
+		{
+			bool _data;
+			return _this.TryGet(_key, out _data) ? _data : _default;
+		}
+
+		public static int IntOrDefault(this JsonData _this, string _key, int _default = 0)
+		{
+			int _data;
+			return _this.TryGet(_key, out _data) ? _data : _default;
 		}
 
 		public static string StringOrDefault(this JsonData _this, string _key, string _default = "")
 		{
-			JsonData _data;
-			if (_this.TryGet(_key, out _data))
-			{
-				if (_data.IsString)
-					return (string)_data;
-				else
-					L.W(L.M.TYPE_WRONG(_data.GetJsonType(), default(string)));
-			}
-			return _default;
+			string _data;
+			return _this.TryGet(_key, out _data) ? _data : _default;
 		}
 
 		public static void AssignPrimitive(this JsonData _data, string _name, object _val)
