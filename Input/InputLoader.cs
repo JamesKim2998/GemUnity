@@ -11,7 +11,6 @@ namespace Gem.In
 		void Start()
 		{
 			var _data = JsonHelper.DataWithRaw(new FullPath(FILE_PATH / inputFile));
-			TheInput.intro.map.Load(_data);
 			TheInput.world.map.Load(_data);
 			TheInput.battle.map.Load(_data);
 		}
