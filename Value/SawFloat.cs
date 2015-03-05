@@ -1,8 +1,8 @@
 ﻿namespace Gem
 {
-	public struct SewFloat
+	public struct SawFloat
 	{
-		public SewFloat(float _limit, float _default = default(float))
+		public SawFloat(float _limit, float _default = default(float))
 		{
 			mLimit = _limit;
 			mValue = mDefault = _default;
@@ -28,7 +28,7 @@
 			return _limit;
 		}
 
-		public static implicit operator float(SewFloat _val)
+		public static implicit operator float(SawFloat _val)
 		{
 			return _val.mValue;
 		}
