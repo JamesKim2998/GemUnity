@@ -97,6 +97,12 @@ namespace Gem
 		{
 			return (RectTransform)_this.transform;
 		}
+
+		public static bool Play(this Animation _this, AnimationClip _clip)
+		{
+			_this.clip = _clip;
+			return _this.Play();
+		}
 	}
 
 }
