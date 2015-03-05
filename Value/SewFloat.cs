@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Gem
+﻿namespace Gem
 {
-	public struct SewValue<T, A> where T: IComparable<T> where A: IArithmetic<T>, new()
+	public struct SewFloat
 	{
-		public SewValue(T _limit, T _default = default(T))
+		public SewFloat(float _limit, float _default = default(float))
 		{
 			mLimit = _limit;
 			mValue = mDefault = _default;
@@ -14,9 +12,9 @@ namespace Gem
 
 		public bool isDefault { get { return mValue.CompareTo(mDefault) == 0; } }
 
-		public bool Add(T _val)
+		public bool Add(float _val)
 		{
-			mValue = new A { val = this }.Add(new A { val = _val }).val;
+			mValue += _val;
 
 			var _cmp = mValue.CompareTo(mLimit);
 			var _limit = false;
@@ -30,13 +28,13 @@ namespace Gem
 			return _limit;
 		}
 
-		public static implicit operator T(SewValue<T, A> _val)
+		public static implicit operator float(SewFloat _val)
 		{
 			return _val.mValue;
 		}
 
-		private readonly T mDefault;
-		private readonly T mLimit;
-		private T mValue;
+		private readonly float mDefault;
+		private readonly float mLimit;
+		private float mValue;
 	}
 }
