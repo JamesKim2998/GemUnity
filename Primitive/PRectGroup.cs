@@ -1,19 +1,127 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Gem
 {
 	public class PRectGroup
 	{
+		[DebuggerDisplay("idx={idx}, val={val}")]
+		private struct IndexedValue
+		{
+			public int idx;
+			public int val;
+		}
+
+		private class Peeker
+		{
+			public enum Result
+			{
+				NONE = -1,
+			}
+
+			private readonly List<IndexedValue> mList = new List<IndexedValue>();
+
+			private int mCount { get { return mList.Count; } }
+
+			public void Clear()
+			{
+				mList.Clear();
+			}
+
+			public void Sort()
+			{
+				mList.Sort((a, b) => (a.val - b.val));
+			}
+
+			public void AddRange(IEnumerable<IndexedValue> _range)
+			{
+				mList.AddRange(_range);
+			}
+
+			public bool Less(int _val, out Result _idx)
+			{
+				if (mList.Empty())
+				{
+					_idx = Result.NONE;
+					return false;
+				}
+
+				var _found = mList.BinarySearch(_idxVal => _idxVal.val - _val);
+				if (_found < 0)
+				{
+					var _inv = ~_found;
+					if (_inv == 0)
+					{
+						_idx = Result.NONE;
+						return false;
+					}
+
+					--_inv;
+					_idx = (Result) _inv;
+					return true;
+				}
+				else
+				{
+					if (_found == 0)
+					{
+						_idx = Result.NONE;
+						return false;
+					}
+
+					_idx = (Result) (_found - 1);
+					return true;
+				}
+			}
+
+			public bool Greater(int _val, out Result _idx)
+			{
+				var _found = mList.BinarySearch(_idxVal => _idxVal.val - _val);
+				if (_found < 0)
+				{
+					var _inv = ~_found;
+					if (_inv == mCount)
+					{
+						_idx = Result.NONE;
+						return false;
+					}
+
+					_idx = (Result)_inv;
+					return true;
+				}
+				else
+				{
+					if (_found == mCount - 1)
+					{
+						_idx = Result.NONE;
+						return false;
+					}
+
+					_idx = (Result)(_found + 1);
+					return true;
+				}
+			}
+
+			public IEnumerable<int> BeginToResult(Result _idx)
+			{
+				return mList.GetRange(0, (int)_idx + 1).Select<IndexedValue, int>(ToIdx);
+			}
+
+			public IEnumerable<int> ResultToEnd(Result _idx)
+			{
+				return mList.GetRange((int)_idx, mList.Count - (int)_idx).Select<IndexedValue, int>(ToIdx);
+			}
+		}
+
 		private bool mIsSorted;
 
 		private readonly List<PRect> mRects = new List<PRect>();
 
-		private readonly List<IndexedValue> mL = new List<IndexedValue>();
-		private readonly List<IndexedValue> mR = new List<IndexedValue>();
-		private readonly List<IndexedValue> mT = new List<IndexedValue>();
-		private readonly List<IndexedValue> mB = new List<IndexedValue>();
+		private readonly Peeker mL = new Peeker();
+		private readonly Peeker mR = new Peeker();
+		private readonly Peeker mT = new Peeker();
+		private readonly Peeker mB = new Peeker();
 
 		public int count { get { return mRects.Count; } }
 
@@ -25,7 +133,7 @@ namespace Gem
 			mRects.Add(_rect);
 		}
 
-		private static int OrderByIdx(IndexedValue _idxVal)
+		private static int ToIdx(IndexedValue _idxVal)
 		{
 			return _idxVal.idx;
 		}
@@ -39,39 +147,19 @@ namespace Gem
 		{
 			Sort();
 
-			_rect = new PRect
-			{
-				org = _rect.org + Point.ONE,
-				dst = _rect.dst - Point.ONE,
-			};
-
-			var l = mL.BinarySearch(_idxVal => _idxVal.val - _rect.dx);
-			var r = mR.BinarySearch(_idxVal => _idxVal.val - _rect.ox);
-			var b = mB.BinarySearch(_idxVal => _idxVal.val - _rect.dy);
-			var t = mT.BinarySearch(_idxVal => _idxVal.val - _rect.oy);
+			Peeker.Result l, r, b, t;
+			if (!mL.Less(_rect.dx, out l)) return null;
+			if (!mR.Greater(_rect.ox, out r)) return null;
+			if (!mB.Less(_rect.dy, out b)) return null;
+			if (!mT.Greater(_rect.oy, out t)) return null;
 
 			var _cnt = count;
+			var _idxs = new List<int>(((int)l + 1) + (_cnt - (int)r) + ((int)b + 1) + (_cnt - (int)t));
 
-			if ((l == ~0) || (b == ~0)
-			    || (r == ~_cnt) || (t == ~_cnt))
-			{
-				return new List<int>();
-			}
-
-			if (l < 0) l = ~l;
-			if (r < 0) r = ~r;
-			if (b < 0) b = ~b;
-			if (t < 0) t = ~t;
-
-			if (l == _cnt) --l;
-			if (b == _cnt) --b;
-
-			var _idxs = new List<int>((l + 1) + (_cnt - r) + (b + 1) + (_cnt - t));
-
-			_idxs.AddRange(mL.GetRange(0, l + 1).Select<IndexedValue, int>(OrderByIdx));
-			_idxs.AddRange(mR.GetRange(r, _cnt - r).Select<IndexedValue, int>(OrderByIdx));
-			_idxs.AddRange(mB.GetRange(0, b + 1).Select<IndexedValue, int>(OrderByIdx));
-			_idxs.AddRange(mT.GetRange(t, _cnt - t).Select<IndexedValue, int>(OrderByIdx));
+			_idxs.AddRange(mL.BeginToResult(l));
+			_idxs.AddRange(mR.ResultToEnd(r));
+			_idxs.AddRange(mB.BeginToResult(b));
+			_idxs.AddRange(mT.ResultToEnd(t));
 			_idxs.Sort();
 
 			var _lastIdx = -1;
@@ -94,12 +182,6 @@ namespace Gem
 			return _ret;
 		}
 
-		struct IndexedValue
-		{
-			public int idx;
-			public int val;
-		}
-
 		private void Sort()
 		{
 			if (mIsSorted)
@@ -118,11 +200,11 @@ namespace Gem
 			Sort(mRects, _rect => _rect.dy, mT);
 		}
 
-		private static void Sort(IEnumerable<PRect> _rects, Func<PRect, int> _toVal, List<IndexedValue> _out)
+		private static void Sort(IEnumerable<PRect> _rects, Func<PRect, int> _toVal, Peeker _out)
 		{
 			var i = 0;
 			_out.AddRange(_rects.Select(_rect => new IndexedValue {val = _toVal(_rect), idx = i++}));
-			_out.Sort((a, b) => (a.val - b.val));
+			_out.Sort();
 		}
 	}
 }
