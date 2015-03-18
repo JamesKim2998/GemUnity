@@ -46,7 +46,7 @@ namespace Gem
 
 		void Awake()
 		{
-			if (rigidbody2D)
+			if (GetComponent<Rigidbody2D>())
 				physics = true;
 		}
 
@@ -88,8 +88,8 @@ namespace Gem
 		protected virtual void _OnMouseUp()
 		{
 			m_ForcedStick = false;
-			if (rigidbody2D)
-				rigidbody2D.velocity = m_Velocity;
+			if (GetComponent<Rigidbody2D>())
+				GetComponent<Rigidbody2D>().velocity = m_Velocity;
 		}
 	}
 
