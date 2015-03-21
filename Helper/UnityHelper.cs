@@ -98,6 +98,16 @@ namespace Gem
 			return (RectTransform)_this.transform;
 		}
 
+		public static bool Contains(this LayerMask _this, GameObject _target)
+		{
+			return (_this.value & (1 << _target.layer)) != 0;
+		}
+
+		public static bool Contains(this LayerMask _this, Collider2D _target)
+		{
+			return _this.Contains(_target.gameObject);
+		}
+
 		public static bool Play(this Animation _this, AnimationClip _clip)
 		{
 			_this.clip = _clip;

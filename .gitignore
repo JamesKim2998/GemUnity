@@ -1,8 +1,11 @@
 /Library/*.cs
 /Library/*.meta
+/Library/DLLs
 /Library/LitJson
 /Library/PriorityQueue
 /Library/tk2d.meta
 /Library/tk2d
 /Library/uTween
 /Library/SoundManagerPro
+/Library/CreateScriptDialog
+/Library/FullInspector2

@@ -5,42 +5,42 @@ namespace Gem
 
 	public class DragAndDrop : MonoBehaviour
 	{
-		private Vector2 m_Offset;
+		private Vector2 mOffset;
 		public Vector2 offset
 		{
-			get { return m_Offset; }
+			get { return mOffset; }
 			set
 			{
-				m_Offset = value;
+				mOffset = value;
 				var _posOld = transform.position;
-				var _posNew = (Vector3)m_Offset + Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				var _posNew = (Vector3)mOffset + Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				_posNew.z = _posOld.z;
 				transform.position = _posNew;
 			}
 		}
 
 		#region physics
-		private bool m_Physics = false;
+		private bool mPhysics = false;
 		public bool physics
 		{
-			get { return m_Physics; }
+			get { return mPhysics; }
 			set
 			{
 				if (physics == value) return;
-				m_Physics = value;
+				mPhysics = value;
 				if (physics)
-					m_Velocity = Vector2.zero;
+					mVelocity = Vector2.zero;
 			}
 		}
 
-		private Vector2 m_Velocity;
+		private Vector2 mVelocity;
 		#endregion
 
-		private bool m_ForcedStick = false;
+		private bool mForcedStick = false;
 		public void ForcedStick()
 		{
-			if (m_ForcedStick) return;
-			m_ForcedStick = true;
+			if (mForcedStick) return;
+			mForcedStick = true;
 			_OnMouseDown();
 		}
 
@@ -52,7 +52,7 @@ namespace Gem
 
 		void Update()
 		{
-			if (m_ForcedStick)
+			if (mForcedStick)
 			{
 				if (Input.GetMouseButtonDown(0))
 					_OnMouseDown();
@@ -82,14 +82,14 @@ namespace Gem
 			transform.position = _position + (Vector3)offset;
 
 			var _velocity = ((Vector2)transform.position - (Vector2)_positionOld) / Time.deltaTime;
-			m_Velocity = Vector2.Lerp(m_Velocity, _velocity, 10 * Time.deltaTime);
+			mVelocity = Vector2.Lerp(mVelocity, _velocity, 10 * Time.deltaTime);
 		}
 
 		protected virtual void _OnMouseUp()
 		{
-			m_ForcedStick = false;
+			mForcedStick = false;
 			if (GetComponent<Rigidbody2D>())
-				GetComponent<Rigidbody2D>().velocity = m_Velocity;
+				GetComponent<Rigidbody2D>().velocity = mVelocity;
 		}
 	}
 
