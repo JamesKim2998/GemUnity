@@ -5,6 +5,11 @@ namespace Gem
 {
 	public static class UnityHelper
 	{
+		public static Rect MakeRect(Vector2 _bl, Vector2 _tr)
+		{
+			return new Rect(_bl.x, _bl.y, _tr.x - _bl.x, _tr.y - _bl.y);
+		}
+
 		private static byte HexToDec(char c)
 		{
 			if (c >= '0' && c <= '9')
