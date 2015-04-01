@@ -1,7 +1,5 @@
 ﻿using System.IO;
 using UnityEditor;
-using UnityEngine;
-using System.Collections;
 
 public static class EditorSceneHelper {
 
