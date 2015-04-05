@@ -1,5 +1,8 @@
-﻿namespace Gem
+﻿using System;
+
+namespace Gem
 {
+	[Serializable]
 	public struct Pair<F, S>
 	{
 		public Pair(F _first, S _second)
