@@ -4,8 +4,12 @@
 	{
 		void OnApplicationQuit()
 		{
-			L.D("quit.");
-			Broadcast.onQuit.val.CheckAndCall();
+			Broadcast.onQuit.CheckAndCall();
+		}
+
+		void OnLevelWasLoaded(int _level)
+		{
+			Broadcast.onLevelWasLoaded.CheckAndCall(_level);
 		}
 	}
 }

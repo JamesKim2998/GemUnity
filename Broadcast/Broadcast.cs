@@ -5,8 +5,9 @@ namespace Gem
 
 	public static class Broadcast
 	{
-		public static ActionWrap onQuit = new ActionWrap();
-	}
+		public static Action onQuit;
 
+		public static Action<int> onLevelWasLoaded;
+	}
 
 }

@@ -2,16 +2,12 @@
 {
 	public static class App
 	{
+		public static bool playing { get; private set; }
+
 		static App()
 		{
 			playing = true;
-			sOnQuit.Conn(Broadcast.onQuit);
+			Broadcast.onQuit += delegate { playing = false; };
 		}
-		public static bool playing { get; private set; }
-
-		private static readonly Connection sOnQuit = new Connection(delegate
-		{
-			playing = false;
-		});
 	}
 }
