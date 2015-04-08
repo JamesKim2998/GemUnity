@@ -5,6 +5,16 @@ namespace Gem
 {
 	public static class UnityHelper
 	{
+		public static Vector2 MakeIdentity2(float _val)
+		{
+			return new Vector2(_val, _val);
+		}
+
+		public static Vector3 MakeIdentity3(float _val)
+		{
+			return new Vector3(_val, _val, _val);
+		}
+
 		public static Rect MakeRect(Vector2 _bl, Vector2 _tr)
 		{
 			return new Rect(_bl.x, _bl.y, _tr.x - _bl.x, _tr.y - _bl.y);

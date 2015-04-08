@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Gem
@@ -68,6 +69,12 @@ namespace Gem
 			_this.localEulerAngles = _euler;
 		}
 
+		public static void SetLScale(this Transform _this, float _val)
+		{
+			_this.transform.localScale = UnityHelper.MakeIdentity3(_val);
+		}
+
+		[Obsolete]
 		public static void SetParentIdentity(this Transform _this, Transform _parent)
 		{
 			var _pos = _this.localPosition;
@@ -79,6 +86,7 @@ namespace Gem
 			_this.localScale = _scale;
 		}
 
+		[Obsolete]
 		public static void SetParentWithoutScale(this Transform _this, Transform _parent)
 		{
 			var _scale = _this.localScale;
