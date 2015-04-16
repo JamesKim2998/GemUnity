@@ -6,7 +6,7 @@ namespace Gem
 	{
 		public static GameObject Instantiate(this GameObject _this)
 		{
-			return (GameObject) Object.Instantiate(_this);
+			return Object.Instantiate(_this);
 		}
 
 		public static T Instantiate<T>(this T _this) where T : Component
