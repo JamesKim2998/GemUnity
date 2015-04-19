@@ -1,9 +1,10 @@
 ﻿using System;
+using Gem;
 using UnityEngine;
 
-[RequireComponent(typeof(MouseFollow))]
 public class MouseActor : MonoBehaviour
 {
+	public new Camera camera;
 	public LayerMask mask;
 	public Func<GameObject, bool> act;
 
@@ -15,8 +16,14 @@ public class MouseActor : MonoBehaviour
 
 	void Act()
 	{
-		var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		var _result = Physics2D.OverlapCircle(_mousePos, 0.1f, mask, -1, 1);
+		if (!camera)
+		{
+			L.D("act without camera.");
+			return;
+		}
+
+		var _mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
+		var _result = Physics2D.OverlapPoint(_mousePos, mask);
 
 		if (!_result || (act == null)
 			|| ! act(_result.gameObject))

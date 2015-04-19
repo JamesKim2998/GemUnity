@@ -1,22 +1,25 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Gem;
+using UnityEngine;
 
-public class MouseFollow : MonoBehaviour {
+public class MouseFollow : MonoBehaviour
+{
+	public new Camera camera;
+	public Vector2 offset;
 
 	void Start()
 	{
 		Follow();
 	}
 
-	void Update () {
+	void Update() 
+	{
 		Follow();
 	}
 
 	void Follow()
 	{
-		var _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		var _posOld = transform.localPosition;
-		_mousePos.z = _posOld.z;
-		transform.position = _mousePos;
+		if (!camera) return;
+		var _mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
+		transform.SetPos((Vector2)_mousePos + offset);
 	}
 }
