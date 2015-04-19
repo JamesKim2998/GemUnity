@@ -4,6 +4,20 @@ namespace Gem
 {
 	public class DragAndDrop : MonoBehaviour
 	{
+		private Camera mCamera;
+		public new Camera camera
+		{
+			get
+			{
+				if (mCamera)
+					return mCamera;
+				else
+					return Camera.main;
+			}
+
+			set { mCamera = value; }
+		}
+
 		private Vector2 mOffset;
 		public Vector2 offset
 		{
@@ -12,7 +26,7 @@ namespace Gem
 			{
 				mOffset = value;
 				var _posOld = transform.position;
-				var _posNew = (Vector3)mOffset + Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				var _posNew = (Vector3)mOffset + camera.ScreenToWorldPoint(Input.mousePosition);
 				_posNew.z = _posOld.z;
 				transform.position = _posNew;
 			}
@@ -49,6 +63,9 @@ namespace Gem
 				physics = true;
 		}
 
+		protected virtual void Start()
+		{}
+
 		void Update()
 		{
 			if (mForcedStick)
@@ -68,14 +85,14 @@ namespace Gem
 
 		protected virtual void DoMouseDown()
 		{
-			offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			offset = transform.position - camera.ScreenToWorldPoint(Input.mousePosition);
 		}
 
 		protected virtual void DoMouseDrag()
 		{
 			var _positionOld = transform.position;
 			var _position = _positionOld;
-			var _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			var _mousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
 			_position.x = _mousePosition.x;
 			_position.y = _mousePosition.y;
 			transform.position = _position + (Vector3)offset;
