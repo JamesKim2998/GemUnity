@@ -77,6 +77,19 @@ namespace Gem
 			_this.localPosition = _pos;
 		}
 
+		public static void LerpLPosX(this Transform _this, float _val, float _lerp)
+		{
+			_this.SetLPosX(Mathf.Lerp(_this.localPosition.x, _val, _lerp));
+		}
+		public static void LerpLPosY(this Transform _this, float _val, float _lerp)
+		{
+			_this.SetLPosY(Mathf.Lerp(_this.localPosition.y, _val, _lerp));
+		}
+		public static void LerpLPosZ(this Transform _this, float _val, float _lerp)
+		{
+			_this.SetLPosZ(Mathf.Lerp(_this.localPosition.z, _val, _lerp));
+		}
+
 		public static void SetEulerZ(this Transform _this, float _val)
 		{
 			var _euler = _this.eulerAngles;
