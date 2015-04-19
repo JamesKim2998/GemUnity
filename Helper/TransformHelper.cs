@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Gem
@@ -10,6 +11,14 @@ namespace Gem
 			_pos.x = _val.x;
 			_pos.y = _val.y;
 			_this.position = _pos;
+		}
+
+		public static void SetLPos(this Transform _this, Vector2 _val)
+		{
+			var _pos = _this.localPosition;
+			_pos.x = _val.x;
+			_pos.y = _val.y;
+			_this.localPosition = _pos;
 		}
 
 		public static void SetPosX(this Transform _this, float _val)
@@ -54,11 +63,30 @@ namespace Gem
 			_this.localPosition = _pos;
 		}
 
+		public static void AddPos(this Transform _this, Vector2 _val)
+		{
+			var _pos = _this.position;
+			_pos += (Vector3)_val;
+			_this.position = _pos;
+		}
+
+		public static void AddLPos(this Transform _this, Vector2 _val)
+		{
+			var _pos = _this.localPosition;
+			_pos += (Vector3)_val;
+			_this.localPosition = _pos;
+		}
+
 		public static void SetEulerZ(this Transform _this, float _val)
 		{
 			var _euler = _this.eulerAngles;
 			_euler.z = _val;
 			_this.eulerAngles = _euler;
+		}
+
+		public static float GetLEulerZ(this Transform _this)
+		{
+			return _this.localEulerAngles.z;
 		}
 
 		public static void SetLEulerZ(this Transform _this, float _val)
@@ -68,6 +96,17 @@ namespace Gem
 			_this.localEulerAngles = _euler;
 		}
 
+		public static void AddLEulerZ(this Transform _this, float _val)
+		{
+			_this.SetLEulerZ(_this.GetLEulerZ() + _val);
+		}
+
+		public static void SetLScale(this Transform _this, float _val)
+		{
+			_this.transform.localScale = UnityHelper.MakeIdentity3(_val);
+		}
+
+		[Obsolete]
 		public static void SetParentIdentity(this Transform _this, Transform _parent)
 		{
 			var _pos = _this.localPosition;
@@ -79,6 +118,7 @@ namespace Gem
 			_this.localScale = _scale;
 		}
 
+		[Obsolete]
 		public static void SetParentWithoutScale(this Transform _this, Transform _parent)
 		{
 			var _scale = _this.localScale;
