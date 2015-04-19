@@ -2,7 +2,6 @@
 
 namespace Gem
 {
-
 	public class DragAndDrop : MonoBehaviour
 	{
 		private Vector2 mOffset;
@@ -41,7 +40,7 @@ namespace Gem
 		{
 			if (mForcedStick) return;
 			mForcedStick = true;
-			_OnMouseDown();
+			DoMouseDown();
 		}
 
 		void Awake()
@@ -55,24 +54,24 @@ namespace Gem
 			if (mForcedStick)
 			{
 				if (Input.GetMouseButtonDown(0))
-					_OnMouseDown();
+					DoMouseDown();
 				else if (Input.GetMouseButton(0))
-					_OnMouseDrag();
+					DoMouseDrag();
 				else if (Input.GetMouseButtonUp(0))
-					_OnMouseUp();
+					DoMouseUp();
 			}
 		}
 
-		void OnMouseDown() { _OnMouseDown(); }
-		void OnMouseDrag() { _OnMouseDrag(); }
-		void OnMouseUp() { _OnMouseUp(); }
+		void OnMouseDown() { DoMouseDown(); }
+		void OnMouseDrag() { DoMouseDrag(); }
+		void OnMouseUp() { DoMouseUp(); }
 
-		protected virtual void _OnMouseDown()
+		protected virtual void DoMouseDown()
 		{
 			offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		}
 
-		protected virtual void _OnMouseDrag()
+		protected virtual void DoMouseDrag()
 		{
 			var _positionOld = transform.position;
 			var _position = _positionOld;
@@ -85,7 +84,7 @@ namespace Gem
 			mVelocity = Vector2.Lerp(mVelocity, _velocity, 10 * Time.deltaTime);
 		}
 
-		protected virtual void _OnMouseUp()
+		protected virtual void DoMouseUp()
 		{
 			mForcedStick = false;
 			if (GetComponent<Rigidbody2D>())
