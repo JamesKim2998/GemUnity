@@ -185,6 +185,17 @@ namespace Gem
 			return _c.TryGetValue(_key, out _val) ? _val : _default;
 		}
 
+		public static V GetOrPut<K, V>(this IDictionary<K, V> c, K _key) where V : class, new()
+		{
+			var _val = c.GetOrDefault(_key);
+			if (_val != null) 
+				return _val;
+
+			_val = new V();
+			c[_key] = _val;
+			return _val;
+		}
+
 		public static bool TryAdd<K, V>(this IDictionary<K, V> _c, K _key, V _val)
 		{
 			try

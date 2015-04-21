@@ -49,24 +49,26 @@ namespace Gem
 		{
 			int _intVal;
 
-			if (Int32.TryParse(_str, out _intVal))
+			if (!Int32.TryParse(_str, out _intVal))
 			{
-				if (Enum.IsDefined(typeof(T), _intVal))
-				{
-					_ret = (T)(object)_intVal;
-					return true;
-				}
+				_ret = default(T);
+				return false;
 			}
 
-			_ret = default(T);
-			L.W(L.DO.RETURN(false), L.M.ENUM_UNDEFINED(_str));
-			return false;
+			_ret = (T)(object)_intVal;
+			return true;
 		}
 
 		public static T ParseOrDefault<T>(string _str)
 		{
 			T _ret;
 			return TryParse(_str, out _ret) ? _ret : default(T);
+		}
+
+		public static T ParseAsIntOrDefault<T>(string _str)
+		{
+			T _ret;
+			return TryParseAsInt(_str, out _ret) ? _ret : default(T);
 		}
 	}
 
