@@ -72,10 +72,10 @@ namespace Gem
 			{
 				if (Input.GetMouseButtonDown(0))
 					DoMouseDown();
-				else if (Input.GetMouseButton(0))
-					DoMouseDrag();
 				else if (Input.GetMouseButtonUp(0))
 					DoMouseUp();
+				else
+					DoMouseDrag();
 			}
 		}
 
