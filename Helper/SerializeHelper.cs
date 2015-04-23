@@ -8,7 +8,7 @@ namespace Gem
 {
 	public static class SerializeHelper
 	{
-		public static MemoryStream Enc(this object o)
+		public static MemoryStream Enc(object o)
 		{
 			var s = new MemoryStream();
 			var _formatter = new BinaryFormatter();
@@ -16,21 +16,21 @@ namespace Gem
 			return s;
 		}
 
-		public static void Enc(this object o, Path_ _path)
+		public static void Enc(object o, Path _path)
 		{
-			using (var s = o.Enc())
+			using (var s = Enc(o))
 			using (var f = new FileStream(_path, FileMode.Create, FileAccess.Write))
 				s.WriteTo(f);
 		}
 
-		public static T Dec<T>(this MemoryStream s)
+		public static T Dec<T>(MemoryStream s)
 		{
 			IFormatter _formatter = new BinaryFormatter();
 			s.Seek(0, SeekOrigin.Begin);
 			return (T) _formatter.Deserialize(s);
 		}
 
-		public static bool Dec<T>(Path_ _path, out T _data)
+		public static bool Dec<T>(Path _path, out T _data)
 		{
 			using (var s = new MemoryStream())
 			{

@@ -11,7 +11,7 @@ namespace Gem
 	{
 		private static readonly Cache sCache = new Cache();
 
-		public static Texture2D Load(FullPath _path)
+		public static Texture2D Load(Path _path)
 		{
 			var _key = _path.GetHashCode();
 
@@ -30,7 +30,7 @@ namespace Gem
 			return _texNew;
 		}
 
-		private static Texture2D DoLoad(FullPath _path)
+		private static Texture2D DoLoad(Path _path)
 		{
 			Texture2D _tex = null;
 			if (File.Exists(_path))

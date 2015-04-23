@@ -6,38 +6,12 @@ namespace Gem
 {
 	[DebuggerDisplay("Path = {mValue}")]
 	[Serializable]
-	public struct Path_
+	public struct Path
 	{
 		private readonly string mValue;
 
-		public Path_(string _path)
+		public Path(string _path)
 		{
-			if (string.IsNullOrEmpty(_path))
-				L.W(L.M.SHOULD_NOT_NULL("path"));
-			mValue = _path;
-		}
-
-		public static implicit operator string(Path_ _this)
-		{
-			return _this.mValue;
-		}
-
-		public static Path_ operator /(Path_ _this, string _append)
-		{
-			return new Path_(_this.mValue + "/" + _append);
-		}
-	}
-
-	[DebuggerDisplay("Path = {mValue}")]
-	[Serializable]
-	public struct FullPath
-	{
-		private readonly string mValue;
-
-		public FullPath(string _path)
-		{
-			if (string.IsNullOrEmpty(_path))
-				L.W(L.M.SHOULD_NOT_NULL("path"));
 			mValue = _path;
 		}
 
@@ -46,10 +20,39 @@ namespace Gem
 			return File.Exists(mValue);
 		}
 
-		public static implicit operator string(FullPath _this)
+		public static implicit operator string(Path _this)
 		{
 			return _this.mValue;
 		}
 	}
 
+	[DebuggerDisplay("Directory = {mValue}")]
+	[Serializable]
+	public struct Directory
+	{
+		private readonly string mValue;
+
+		public Directory(string _dir)
+		{
+			mValue = _dir;
+		}
+
+		public bool Exists()
+		{
+			return System.IO.Directory.Exists(mValue);
+		}
+
+		public bool CreateIfNotExists()
+		{
+			var _found = !Exists();
+			if (_found)
+				System.IO.Directory.CreateDirectory(mValue);
+			return _found;
+		}
+
+		public static Path operator /(Directory _this, Path _append)
+		{
+			return new Path(_this.mValue + "/" + _append);
+		}
+	}
 }

@@ -152,15 +152,7 @@ namespace Gem
 			return EnumHelper.TryParse((string) _reader.Value, out _ret);
 		}
 
-		[Obsolete]
-		public static JsonData DataWithRaw(Path_ _path)
-		{
-			var _fullPath = Raw.FullPath(_path);
-			if (!_fullPath.HasValue) return null;
-			return DataWithRaw(_fullPath.Value);
-		}
-
-		public static JsonData DataWithRaw(FullPath _path)
+		public static JsonData DataWithRaw(Path _path)
 		{
 			var s = Raw.Read(_path, FileMode.Open);
 			if (s == null) return null;
@@ -195,7 +187,7 @@ namespace Gem
 			}
 		}
 
-		public static bool ObjectWithRaw<T>(FullPath _path, out T _obj)
+		public static bool ObjectWithRaw<T>(Path _path, out T _obj)
 		{
 			var s = Raw.Read(_path, FileMode.Open);
 			if (s == null)

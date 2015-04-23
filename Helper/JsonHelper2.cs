@@ -24,7 +24,7 @@ namespace Gem
 			}
 		}
 
-		public static bool Deserialize<T>(FullPath _path, out T _obj)
+		public static bool Deserialize<T>(Path _path, out T _obj)
 		{
 			var s = Raw.Read(_path, FileMode.Open);
 			if (s == null)
@@ -52,7 +52,7 @@ namespace Gem
 			}
 		}
 
-		public static bool Serialize<T>(FullPath _path, T _obj)
+		public static bool Serialize<T>(Path _path, T _obj)
 		{
 			try
 			{

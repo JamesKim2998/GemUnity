@@ -55,7 +55,7 @@ namespace Gem
 
 	public static class CSVHelper
 	{
-		public static CSVReader Open(FullPath _path)
+		public static CSVReader Open(Path _path)
 		{
 			var _reader = new CSVFileReader
 			{
