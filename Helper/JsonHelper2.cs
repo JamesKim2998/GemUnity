@@ -8,6 +8,26 @@ namespace Gem
 {
 	public static class JsonHelper2
 	{
+		public static bool TryGetAndParse<T>(this JObject _this, string _key, out T _value)
+		{
+			JToken _member;
+			if (!_this.TryGetValue(_key, out _member))
+			{
+				L.W("member " + _key + " not found.");
+				_value = default(T);
+				return false;
+			}
+
+			if (_member.Type != JTokenType.String)
+			{
+				L.W("member " + _key + " found. but not string, " + _member.Type);
+				_value = default(T);
+				return false;
+			}
+
+			return EnumHelper.TryParse((string)_member, out _value);
+		}
+
 		public static bool ObjectWithData<T>(JObject _data, out T _obj)
 		{
 			try
