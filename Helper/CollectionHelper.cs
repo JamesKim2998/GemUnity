@@ -179,6 +179,19 @@ namespace Gem
 			return EnumHelper.TryParse(_valStr, out _val);
 		}
 
+		public static bool TryGetAndParse<K>(this IDictionary<K, string> c, K _key, out int _val)
+		{
+			string _valStr;
+
+			if (!c.TryGet(_key, out _valStr))
+			{
+				_val = 0;
+				return false;
+			}
+
+			return int.TryParse(_valStr, out _val);
+		}
+
 		public static V GetOrDefault<K, V>(this IDictionary<K, V> _c, K _key, V _default = default(V))
 		{
 			V _val;
