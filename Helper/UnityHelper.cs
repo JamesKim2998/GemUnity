@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace Gem
@@ -13,6 +14,16 @@ namespace Gem
 		public static Vector3 MakeIdentity3(float _val)
 		{
 			return new Vector3(_val, _val, _val);
+		}
+
+		public static JArray Serialize(Vector2 _val)
+		{
+			return new JArray(_val.x, _val.y);
+		}
+
+		public static void Deserialize(JArray _data, out Vector2 _out)
+		{
+			_out = new Vector2((float) _data[0], (float) _data[1]);
 		}
 
 		public static Rect MakeRect(Vector2 _bl, Vector2 _tr)
